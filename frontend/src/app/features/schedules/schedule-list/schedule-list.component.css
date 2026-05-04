@@ -1,0 +1,106 @@
+.schedule-list-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-header h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 4px;
+}
+
+.add-btn {
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-weight: 600;
+}
+
+.table-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.schedule-table {
+  background: transparent !important;
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-header-row {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+::ng-deep .mat-mdc-cell {
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  padding: 20px 16px !important;
+}
+
+.schedule-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.type-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.type-icon {
+  color: var(--primary-light);
+}
+
+.due-date {
+  font-weight: 600;
+  color: white;
+}
+
+.overdue {
+  color: #ff5252;
+}
+
+.notes-text {
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.empty-cell {
+  text-align: center;
+  padding: 80px !important;
+}
+
+.empty-cell mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 16px;
+}
+
+.empty-cell p {
+  color: rgba(255, 255, 255, 0.2);
+  margin: 0;
+}

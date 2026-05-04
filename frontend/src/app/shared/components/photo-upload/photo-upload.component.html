@@ -1,0 +1,20 @@
+<div class="upload-container">
+  <input #fileInput type="file" accept="image/*" capture="environment" 
+         (change)="onFileSelected($event)" style="display: none;">
+
+  <div *ngIf="!previewUrl()" class="drop-zone glass-card" (click)="fileInput.click()">
+    <mat-icon>add_a_photo</mat-icon>
+    <p>Tap to capture or upload</p>
+    <span class="subtext">JPG, PNG up to 5MB</span>
+  </div>
+
+  <div *ngIf="previewUrl()" class="preview-zone glass-card">
+    <img [src]="previewUrl()" alt="Plant preview">
+    <div class="preview-overlay">
+      <span class="file-info">{{ fileName() }}</span>
+      <button mat-mini-fab color="warn" (click)="removePhoto()" type="button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

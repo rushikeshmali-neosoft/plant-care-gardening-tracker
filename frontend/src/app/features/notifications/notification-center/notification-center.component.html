@@ -1,0 +1,44 @@
+<button mat-icon-button [matMenuTriggerFor]="notifMenu" class="notif-trigger">
+  <mat-icon [matBadge]="notificationService.unreadCount()" 
+            [matBadgeHidden]="notificationService.unreadCount() === 0"
+            matBadgeColor="warn">
+    notifications_none
+  </mat-icon>
+</button>
+
+<mat-menu #notifMenu="matMenu" class="notification-menu glass-card" xPosition="before">
+  <div class="menu-header" (click)="$event.stopPropagation()">
+    <span>Notifications</span>
+    <button mat-button color="primary" (click)="onMarkAllRead()">Mark all as read</button>
+  </div>
+  <mat-divider></mat-divider>
+  
+  <div class="notification-list" (click)="$event.stopPropagation()">
+    <div *ngIf="notificationService.notifications().length === 0" class="empty-state">
+      <mat-icon>notifications_off</mat-icon>
+      <p>No new notifications</p>
+    </div>
+
+    <button mat-menu-item *ngFor="let n of notificationService.notifications()" 
+            [class.unread]="!n.isRead" class="notif-item">
+      <div class="notif-content">
+        <div class="notif-icon" [ngClass]="n.type.toLowerCase()">
+          <mat-icon>{{ getIcon(n.type) }}</mat-icon>
+        </div>
+        <div class="notif-text">
+          <p class="title">{{ n.title }}</p>
+          <p class="message">{{ n.message }}</p>
+          <span class="time">{{ n.createdAt | date:'shortTime' }}</span>
+        </div>
+        <div class="notif-actions" *ngIf="!n.isRead">
+          <div class="unread-dot" (click)="onMarkRead(n.id, $event)" matTooltip="Mark as read"></div>
+        </div>
+      </div>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+  <button mat-menu-item class="view-all">
+    View All Notifications
+  </button>
+</mat-menu>

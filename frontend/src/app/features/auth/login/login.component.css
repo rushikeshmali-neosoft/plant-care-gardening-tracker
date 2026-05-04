@@ -1,0 +1,142 @@
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: url('/assets/images/login-bg.png') no-repeat center center;
+  background-size: cover;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%);
+  z-index: 1;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 48px;
+  z-index: 2;
+  text-align: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.logo-icon {
+  font-size: 36px;
+  height: 36px;
+  width: 36px;
+  color: var(--primary-light);
+}
+
+.app-title {
+  font-size: 32px;
+  margin: 0;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.welcome-text {
+  font-size: 28px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 32px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-form-field {
+  --mdc-outlined-text-field-container-shape: 12px;
+  --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.3);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary-light);
+  --mdc-outlined-text-field-label-text-color: rgba(255, 255, 255, 0.7);
+  --mdc-outlined-text-field-focus-label-text-color: var(--primary-light);
+  --mdc-outlined-text-field-input-text-color: white;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.forgot-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  transition: var(--transition-fast);
+}
+
+.forgot-link:hover {
+  color: var(--primary-light);
+}
+
+.login-btn {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 16px;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+}
+
+.error-alert {
+  background: rgba(211, 47, 47, 0.2);
+  border: 1px solid rgba(211, 47, 47, 0.5);
+  color: #ffcdd2;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.footer {
+  margin-top: 32px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.signup-link {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 8px;
+  transition: var(--transition-fast);
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+  .login-card {
+    max-width: 90%;
+    padding: 32px 24px;
+  }
+}

@@ -1,0 +1,144 @@
+.history-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.history-header h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.timeline {
+  position: relative;
+  padding-left: 60px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 31px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -44px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background: #1a1f1b;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s;
+}
+
+.timeline-marker mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.timeline-item:hover .timeline-marker {
+  transform: scale(1.2);
+}
+
+.watering .mat-icon { color: #64b5f6; }
+.fertilizing .mat-icon { color: #ffb74d; }
+.pruning .mat-icon { color: #81c784; }
+.repotting .mat-icon { color: #ba68c8; }
+
+.timeline-content {
+  padding: 24px;
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.log-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: white;
+}
+
+.log-date {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.log-notes {
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+.log-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--primary-light);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.log-footer mat-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.empty-timeline {
+  padding: 80px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.empty-timeline mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: rgba(255, 255, 255, 0.1);
+}
+
+.empty-timeline p {
+  color: rgba(255, 255, 255, 0.3);
+  max-width: 300px;
+}

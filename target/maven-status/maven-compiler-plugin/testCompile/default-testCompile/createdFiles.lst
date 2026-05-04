@@ -1,0 +1,4 @@
+com\plantcare\careschedulingscheduling\service\TaskServiceTest.class
+com\plantcare\careschedulingscheduling\service\CareScheduleServiceTest.class
+com\plantcare\careschedulingscheduling\controller\TaskControllerTest.class
+com\plantcare\careschedulingscheduling\controller\CareScheduleControllerTest.class

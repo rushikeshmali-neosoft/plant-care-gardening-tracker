@@ -1,0 +1,41 @@
+.modal-container {
+  padding: 12px;
+  background: transparent !important;
+}
+
+h2 {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 24px !important;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  padding: 0 !important;
+  background: rgba(26, 31, 27, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+}
+
+::ng-deep .mat-mdc-form-field-outline {
+  color: rgba(255, 255, 255, 0.1) !important;
+}
+
+::ng-deep .mat-mdc-select-value {
+  color: white !important;
+}
+
+mat-dialog-actions {
+  padding: 16px 24px 24px !important;
+  gap: 12px;
+}

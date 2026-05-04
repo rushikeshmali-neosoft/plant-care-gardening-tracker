@@ -1,0 +1,95 @@
+.growth-container {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.growth-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.growth-header h1 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.trend-section {
+  padding: 24px;
+}
+
+.trend-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.chart-container {
+  height: 150px;
+  width: 100%;
+  padding: 10px 0;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 8px rgba(139, 168, 136, 0.3));
+}
+
+.table-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.growth-table {
+  background: transparent !important;
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-header-cell {
+  color: rgba(255, 255, 255, 0.4) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+::ng-deep .mat-mdc-cell {
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.value {
+  font-weight: 600;
+  color: white;
+}
+
+.notes-text {
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.empty-cell {
+  text-align: center;
+  padding: 60px !important;
+}
+
+.empty-cell mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: rgba(255, 255, 255, 0.1);
+  margin-bottom: 12px;
+}

@@ -1,0 +1,53 @@
+<div class="library-container fade-in">
+  <header class="library-header">
+    <div class="title-row">
+      <h1>Knowledge Base</h1>
+      <p>Expert guides for every botanical resident</p>
+    </div>
+
+    <div class="search-row">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Search guides...</mat-label>
+        <input matInput (input)="onSearch($event)" placeholder="e.g. Watering Succulents">
+      </mat-form-field>
+    </div>
+
+    <div class="filter-row">
+      <mat-chip-listbox [value]="selectedCategory()" (change)="setCategory($event.value)">
+        <mat-chip-option *ngFor="let cat of categories" [value]="cat">
+          {{ cat }}
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+  </header>
+
+  <div class="guides-grid">
+    <div *ngFor="let g of knowledgeService.careGuides()" 
+         class="guide-card glass-card" 
+         [routerLink]="['/knowledge', g.id]">
+      <div class="guide-tag">{{ g.plantType }}</div>
+      <div class="guide-content">
+        <h3>{{ g.title }}</h3>
+        <p class="excerpt">{{ g.content | slice:0:120 }}...</p>
+      </div>
+      <div class="guide-footer">
+        <span class="read-time">5 min read</span>
+        <button mat-icon-button color="primary">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="knowledgeService.careGuides().length === 0 && !knowledgeService.isLoading()" 
+         class="empty-state">
+      <mat-icon>library_books</mat-icon>
+      <p>No guides found matching your criteria.</p>
+    </div>
+  </div>
+
+  <div *ngIf="knowledgeService.isLoading()" class="loading-state">
+    <mat-icon class="rotating">sync</mat-icon>
+    <p>Growing your library...</p>
+  </div>
+</div>

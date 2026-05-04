@@ -1,0 +1,41 @@
+<div class="guide-container fade-in" *ngIf="guide() as g">
+  <nav class="breadcrumb">
+    <button mat-icon-button routerLink="/knowledge">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Knowledge Base / {{ g.plantType }} / {{ g.title }}</span>
+  </nav>
+
+  <article class="guide-article glass-card">
+    <header class="article-header">
+      <div class="tag">{{ g.plantType }}</div>
+      <h1>{{ g.title }}</h1>
+      <div class="meta">
+        <span class="date">Updated {{ g.createdAt | date:'longDate' }}</span>
+        <span class="separator">•</span>
+        <span class="author">FloraCare Expert Team</span>
+      </div>
+    </header>
+
+    <div class="article-content" [innerHTML]="g.content">
+    </div>
+
+    <footer class="article-footer">
+      <h3>Was this guide helpful?</h3>
+      <div class="feedback-btns">
+        <button mat-stroked-button color="primary">
+          <mat-icon>thumb_up_off_alt</mat-icon>
+          Helpful
+        </button>
+        <button mat-stroked-button>
+          <mat-icon>thumb_down_off_alt</mat-icon>
+          Not really
+        </button>
+      </div>
+    </footer>
+  </article>
+</div>
+
+<div *ngIf="isLoading()" class="loading-overlay">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>

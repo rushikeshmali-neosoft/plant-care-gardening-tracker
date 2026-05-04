@@ -1,0 +1,140 @@
+.register-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: url('/assets/images/login-bg.png') no-repeat center center;
+  background-size: cover;
+}
+
+.background-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+  z-index: 1;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 550px;
+  padding: 40px;
+  z-index: 2;
+  text-align: center;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  color: var(--primary-light);
+}
+
+.app-title {
+  font-size: 28px;
+  margin: 0;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.welcome-text {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.full-width { width: 100%; }
+.half-width { width: 50%; }
+
+::ng-deep .mat-mdc-form-field {
+  --mdc-outlined-text-field-container-shape: 12px;
+  --mdc-outlined-text-field-outline-color: rgba(255, 255, 255, 0.3);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary-light);
+  --mdc-outlined-text-field-label-text-color: rgba(255, 255, 255, 0.7);
+  --mdc-outlined-text-field-focus-label-text-color: var(--primary-light);
+  --mdc-outlined-text-field-input-text-color: white;
+}
+
+::ng-deep .mat-mdc-select-value-text, 
+::ng-deep .mat-mdc-select-arrow {
+  color: white !important;
+}
+
+.row-error {
+  font-size: 12px;
+  text-align: left;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+.register-btn {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 8px;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
+}
+
+.error-alert {
+  background: rgba(211, 47, 47, 0.2);
+  border: 1px solid rgba(211, 47, 47, 0.5);
+  color: #ffcdd2;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.footer {
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.login-link {
+  color: var(--primary-light);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    max-width: 95%;
+    padding: 24px;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .half-width { width: 100%; }
+}

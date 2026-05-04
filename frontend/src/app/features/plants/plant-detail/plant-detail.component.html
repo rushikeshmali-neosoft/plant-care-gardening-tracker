@@ -1,0 +1,112 @@
+<div class="detail-container fade-in" *ngIf="plant() as p">
+  <nav class="breadcrumb">
+    <button mat-icon-button routerLink="/plants">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Catalog / {{ p.commonName }}</span>
+  </nav>
+
+  <section class="hero-section glass-card scale-in">
+    <div class="hero-image">
+      <img [src]="p.imageUrl || 'assets/images/login-bg.png'" [alt]="p.commonName">
+    </div>
+    <div class="hero-content">
+      <div class="badge-row">
+        <span class="status-badge active-glow">{{ p.status }}</span>
+        <span class="location-badge">{{ p.locationType | titlecase }}</span>
+      </div>
+      <h1>{{ p.commonName }}</h1>
+      <p class="scientific">{{ p.scientificName }}</p>
+      
+      <div class="health-summary" [routerLink]="['/plants', p.id, 'health']" style="cursor: pointer" matTooltip="Click for detailed health analysis">
+        <div class="score-label">
+          <span>Overall Health</span>
+          <span class="score">{{ getHealthScore() }}%</span>
+        </div>
+        <mat-progress-bar mode="determinate" [value]="getHealthScore()"></mat-progress-bar>
+      </div>
+    </div>
+  </section>
+
+  <div class="detail-grid">
+    <div class="main-stats slide-in stagger-1">
+      <div class="info-card glass-card">
+        <h3>Vital Statistics</h3>
+        <div class="stats-row">
+          <div class="stat-item">
+            <mat-icon>category</mat-icon>
+            <div>
+              <label>Species</label>
+              <p>{{ p.species || 'N/A' }}</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <mat-icon>place</mat-icon>
+            <div>
+              <label>Location</label>
+              <p>{{ p.roomGarden || 'Not set' }}</p>
+            </div>
+          </div>
+          <div class="stat-item">
+            <mat-icon>calendar_today</mat-icon>
+            <div>
+              <label>Acquired</label>
+              <p>{{ p.purchaseDate | date }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <mat-tab-group class="detail-tabs">
+        <mat-tab label="Care Schedule">
+          <div class="tab-content">
+            <div class="task-list">
+              <div class="task-item upcoming stagger-1">
+                <mat-icon>water_drop</mat-icon>
+                <div class="task-info">
+                  <p class="task-title">Next Watering</p>
+                  <p class="task-date">Tomorrow, 10:00 AM</p>
+                </div>
+                <button mat-icon-button color="primary"><mat-icon>done</mat-icon></button>
+              </div>
+              <div class="task-item stagger-2">
+                <mat-icon>eco</mat-icon>
+                <div class="task-info">
+                  <p class="task-title">Fertilization</p>
+                  <p class="task-date">In 12 days</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Growth Logs">
+          <div class="tab-content empty" [routerLink]="['/plants', p.id, 'growth']" style="cursor: pointer">
+            <mat-icon>bar_chart</mat-icon>
+            <p>Click to view detailed growth trends</p>
+          </div>
+        </mat-tab>
+        <mat-tab label="Care History">
+          <div class="tab-content empty" [routerLink]="['/plants', p.id, 'history']" style="cursor: pointer">
+            <mat-icon>history</mat-icon>
+            <p>Click to view full activity history</p>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+    <aside class="side-actions slide-in stagger-2">
+      <button mat-raised-button color="primary" class="full-width-btn">
+        <mat-icon>edit</mat-icon>
+        Edit Details
+      </button>
+      <button mat-stroked-button class="full-width-btn text-danger">
+        <mat-icon>delete_outline</mat-icon>
+        Archive Plant
+      </button>
+    </aside>
+  </div>
+</div>
+
+<div *ngIf="isLoading()" class="loading-overlay">
+  <mat-spinner diameter="40"></mat-spinner>
+</div>

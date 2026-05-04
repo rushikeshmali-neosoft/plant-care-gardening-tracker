@@ -1,0 +1,42 @@
+<div class="history-container fade-in">
+  <header class="history-header">
+    <div class="header-left">
+      <button mat-icon-button [routerLink]="['/plants', plantId()]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1>Care Timeline</h1>
+        <p class="subtitle">History of nurture and growth</p>
+      </div>
+    </div>
+    <button mat-raised-button color="primary">
+      <mat-icon>history_edu</mat-icon>
+      New Log
+    </button>
+  </header>
+
+  <div class="timeline-wrapper">
+    <div *ngIf="logService.logs().length === 0" class="empty-timeline glass-card">
+      <mat-icon>auto_stories</mat-icon>
+      <p>The story of this plant is just beginning. No care logs yet.</p>
+    </div>
+
+    <div class="timeline" *ngIf="logService.logs().length > 0">
+      <div class="timeline-item" *ngFor="let log of logService.logs()">
+        <div class="timeline-marker" [ngClass]="getCareClass(log.careType)">
+          <mat-icon>{{ getCareIcon(log.careType) }}</mat-icon>
+        </div>
+        <div class="timeline-content glass-card">
+          <div class="log-header">
+            <h3>{{ log.careType | titlecase }}</h3>
+            <span class="log-date">{{ log.logDate | date:'MMM d, y • h:mm a' }}</span>
+          </div>
+          <p class="log-notes" *ngIf="log.notes">{{ log.notes }}</p>
+          <div class="log-footer">
+            <span class="verified"><mat-icon>verified</mat-icon> Care Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

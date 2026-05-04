@@ -1,0 +1,51 @@
+<div class="login-container">
+  <div class="background-overlay"></div>
+  
+  <div class="login-card glass-card fade-in">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">eco</mat-icon>
+      <h1 class="app-title">FloraCare</h1>
+    </div>
+    
+    <h2 class="welcome-text">Welcome Back</h2>
+    <p class="subtitle">Continue your botanical journey</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="you@example.com">
+        <mat-icon matSuffix>mail</mat-icon>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">Please enter a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+        <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+          <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">Password must be at least 6 characters</mat-error>
+      </mat-form-field>
+
+      <div class="actions-row">
+        <a routerLink="/auth/forgot-password" class="forgot-link">Forgot Password?</a>
+      </div>
+
+      <button mat-raised-button color="primary" class="login-btn" type="submit" [disabled]="loginForm.invalid || isLoading()">
+        <span *ngIf="!isLoading()">Sign In</span>
+        <mat-progress-bar *ngIf="isLoading()" mode="indeterminate"></mat-progress-bar>
+      </button>
+
+      <div *ngIf="errorMessage()" class="error-alert fade-in">
+        {{ errorMessage() }}
+      </div>
+    </form>
+
+    <div class="footer">
+      <span>Don't have an account?</span>
+      <a routerLink="/auth/register" class="signup-link">Sign Up</a>
+    </div>
+  </div>
+</div>

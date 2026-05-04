@@ -1,0 +1,63 @@
+<div class="plant-list-container fade-in">
+  <header class="section-header">
+    <div class="header-text">
+      <h1>My Plants</h1>
+      <p class="subtitle">Managing {{ plantService.plants().length }} botanical residents</p>
+    </div>
+    <button mat-raised-button color="primary" class="add-plant-btn" (click)="openAddPlantDialog()">
+      <mat-icon>add</mat-icon>
+      <span>Add New Plant</span>
+    </button>
+  </header>
+
+  <div *ngIf="plantService.isLoading()" class="loading-state">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Refreshing your greenhouse...</p>
+  </div>
+
+  <div *ngIf="!plantService.isLoading() && plantService.plants().length === 0" class="empty-state glass-card">
+    <mat-icon>psychology</mat-icon>
+    <h3>Your greenhouse is empty</h3>
+    <p>Start your journey by adding your first plant companion.</p>
+    <button mat-flat-button color="primary" class="mt-4">Add Plant</button>
+  </div>
+
+  <div class="plant-grid" *ngIf="!plantService.isLoading() && plantService.plants().length > 0">
+    <div class="plant-card glass-card fade-in" 
+         *ngFor="let plant of plantService.plants(); let i = index" 
+         [routerLink]="['/plants', plant.id]"
+         [ngClass]="'stagger-' + (i % 4 + 1)">
+      <div class="card-image-container">
+        <img [src]="plant.imageUrl || 'assets/images/login-bg.png'" [alt]="plant.commonName" class="plant-image">
+        <div class="status-badge" [ngClass]="getStatusColor(plant.status)">
+          {{ plant.status }}
+        </div>
+      </div>
+
+      <div class="card-content">
+        <div class="card-header">
+          <h3 class="plant-name">{{ plant.commonName }}</h3>
+          <span class="scientific-name">{{ plant.scientificName }}</span>
+        </div>
+
+        <div class="health-indicator">
+          <div class="indicator-label">
+            <span>Health Status</span>
+            <span>{{ getHealthScore(plant) }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="getHealthScore(plant)" class="health-bar"></mat-progress-bar>
+        </div>
+
+        <div class="card-footer">
+          <div class="location-tag">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ plant.roomGarden }}</span>
+          </div>
+          <button mat-icon-button class="action-btn">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

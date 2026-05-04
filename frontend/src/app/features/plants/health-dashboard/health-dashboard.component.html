@@ -1,0 +1,80 @@
+<div class="dashboard-container fade-in">
+  <header class="dashboard-header">
+    <div class="header-left">
+      <button mat-icon-button [routerLink]="['/plants', plantId()]">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div>
+        <h1>Health Analysis</h1>
+        <p class="subtitle">Diagnostic pulse and trends</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="health-badge" [attr.data-score]="currentHealthScore()">
+        {{ currentHealthScore() }}% Vitality
+      </span>
+    </div>
+  </header>
+
+  <div class="diagnostic-grid">
+    <!-- Main Health Score -->
+    <section class="score-card glass-card">
+      <div class="gauge-container">
+        <div class="gauge">
+          <div class="gauge-fill" [style.transform]="'rotate(' + (currentHealthScore() * 1.8 - 90) + 'deg)'"></div>
+          <div class="gauge-cover">
+            <span class="score-value">{{ currentHealthScore() }}</span>
+            <span class="score-label">Health Index</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-summary">
+        <h3>Current Condition</h3>
+        <p class="status-text" *ngIf="healthService.healthIndicators().length > 0">
+          Plant is currently in <span class="highlight">{{ getStatusLabel(healthService.healthIndicators()[0].healthStatus) }}</span> status based on last assessment.
+        </p>
+      </div>
+    </section>
+
+    <!-- Trend Chart -->
+    <section class="trend-card glass-card">
+      <div class="card-header">
+        <h3>Vitality Trend</h3>
+        <p>Longitudinal health assessment</p>
+      </div>
+      <div class="chart-wrapper">
+        <svg viewBox="0 0 600 150" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="healthGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="var(--primary-light)" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="var(--primary-light)" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path class="area" [attr.d]="'M0,150 ' + healthTrendPoints() + ' L600,150 Z'" fill="url(#healthGrad)" />
+          <polyline class="trend-line" [attr.points]="healthTrendPoints()" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- Indicators List -->
+    <section class="indicators-card glass-card">
+      <h3>Recent Assessments</h3>
+      <div class="indicator-list">
+        <div class="indicator-item" *ngFor="let h of healthService.healthIndicators().slice(0, 5)">
+          <div class="status-marker" [attr.data-status]="h.healthStatus"></div>
+          <div class="indicator-content">
+            <div class="item-header">
+              <span class="status">{{ h.healthStatus | titlecase }}</span>
+              <span class="date">{{ h.recordedDate | date:'MMM d' }}</span>
+            </div>
+            <p class="notes" *ngIf="h.notes">{{ h.notes }}</p>
+          </div>
+        </div>
+        <div *ngIf="healthService.healthIndicators().length === 0" class="empty-list">
+          <mat-icon>analytics</mat-icon>
+          <p>No health indicators recorded yet.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
