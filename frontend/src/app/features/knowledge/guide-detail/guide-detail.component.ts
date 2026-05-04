@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { KnowledgeService } from '../../../core/services/knowledge.service';
 import { CareGuide } from '../../../core/models/knowledge.model';
 
 @Component({
   selector: 'app-guide-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
   templateUrl: './guide-detail.component.html',
   styleUrls: ['./guide-detail.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

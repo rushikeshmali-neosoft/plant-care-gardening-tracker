@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 import { PlantService } from '../../../core/services/plant.service';
 import { Plant, PlantStatus } from '../../../core/models/plant.model';
 import { AddPlantComponent } from '../add-plant/add-plant.component';
@@ -18,7 +19,8 @@ import { AddPlantComponent } from '../add-plant/add-plant.component';
     MatButtonModule,
     MatProgressBarModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule
   ],
   templateUrl: './plant-list.component.html',
   styleUrls: ['./plant-list.component.css'],
