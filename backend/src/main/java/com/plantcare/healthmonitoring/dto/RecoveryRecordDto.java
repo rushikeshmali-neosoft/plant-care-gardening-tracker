@@ -1,6 +1,5 @@
-package com.plantcare.carescheduling.dto;
+package com.plantcare.healthmonitoring.dto;
 
-import com.plantcare.carescheduling.entity.CareSchedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,18 +12,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CareScheduleDto {
+public class RecoveryRecordDto {
     private Long id;
     private Long plantId;
-    private String plantName;
-    private CareSchedule.CareType careType;
-    private Integer frequencyDays;
-    private LocalDate nextDueDate;
+    private LocalDate startDate;
+    private LocalDate recoveryDate;
+    private Integer progressPercentage;
     private String notes;
-    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
-
-
-
-

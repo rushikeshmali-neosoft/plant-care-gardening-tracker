@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-05T12:28:25+0530",
+    date = "2026-05-05T13:04:54+0530",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
 )
 @Component
@@ -24,6 +24,7 @@ public class CareScheduleMapperImpl implements CareScheduleMapper {
         CareScheduleDto.CareScheduleDtoBuilder careScheduleDto = CareScheduleDto.builder();
 
         careScheduleDto.plantId( careSchedulePlantId( careSchedule ) );
+        careScheduleDto.plantName( careSchedulePlantCommonName( careSchedule ) );
         careScheduleDto.id( careSchedule.getId() );
         careScheduleDto.careType( careSchedule.getCareType() );
         careScheduleDto.frequencyDays( careSchedule.getFrequencyDays() );
@@ -64,5 +65,20 @@ public class CareScheduleMapperImpl implements CareScheduleMapper {
             return null;
         }
         return id;
+    }
+
+    private String careSchedulePlantCommonName(CareSchedule careSchedule) {
+        if ( careSchedule == null ) {
+            return null;
+        }
+        Plant plant = careSchedule.getPlant();
+        if ( plant == null ) {
+            return null;
+        }
+        String commonName = plant.getCommonName();
+        if ( commonName == null ) {
+            return null;
+        }
+        return commonName;
     }
 }

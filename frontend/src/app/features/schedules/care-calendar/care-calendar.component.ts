@@ -2,9 +2,11 @@ import { Component, OnInit, ChangeDetectionStrategy, inject, signal, computed } 
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { CareService } from '../../../core/services/care.service';
 import { CareSchedule, CareType } from '../../../core/models/care.model';
+import { ScheduleDialogComponent } from '../schedule-dialog/schedule-dialog.component';
 
 interface CalendarDay {
   date: Date;
@@ -16,15 +18,17 @@ interface CalendarDay {
 @Component({
   selector: 'app-care-calendar',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule, MatDialogModule],
   templateUrl: './care-calendar.component.html',
   styleUrls: ['./care-calendar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CareCalendarComponent implements OnInit {
   careService = inject(CareService);
+  private dialog = inject(MatDialog);
   
   currentDate = signal(new Date());
+  selectedDay = signal<CalendarDay | null>(null);
   
   calendarDays = computed(() => {
     const date = this.currentDate();
@@ -61,6 +65,13 @@ export class CareCalendarComponent implements OnInit {
   ngOnInit(): void {
     // Load all schedules globally for the calendar view
     this.careService.getAllSchedules().subscribe({
+      next: () => {
+        // Find today and select it by default
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const todayDay = this.calendarDays().find(d => d.date.getTime() === today.getTime());
+        if (todayDay) this.selectedDay.set(todayDay);
+      },
       error: (err: any) => console.error('Failed to load schedules', err)
     });
   }
@@ -89,6 +100,33 @@ export class CareCalendarComponent implements OnInit {
 
   resetToToday(): void {
     this.currentDate.set(new Date());
+  }
+
+  openAddScheduleDialog(): void {
+    const dialogRef = this.dialog.open(ScheduleDialogComponent, {
+      width: '500px',
+      panelClass: 'schedule-modal-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Refresh schedules
+        this.careService.getAllSchedules().subscribe();
+      }
+    });
+  }
+
+  selectDay(day: CalendarDay): void {
+    this.selectedDay.set(day);
+  }
+
+  completeTask(task: CareSchedule): void {
+    this.careService.markComplete(task.plantId, task.id).subscribe({
+      next: () => {
+        // Refresh all schedules to update the calendar
+        this.careService.getAllSchedules().subscribe();
+      }
+    });
   }
 
   getCareIcon(type: CareType): string {

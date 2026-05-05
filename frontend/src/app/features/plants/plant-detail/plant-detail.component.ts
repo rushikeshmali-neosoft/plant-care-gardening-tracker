@@ -6,8 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PlantService } from '../../../core/services/plant.service';
+import { CareService } from '../../../core/services/care.service';
 import { Plant, PlantStatus } from '../../../core/models/plant.model';
+import { ScheduleDialogComponent } from '../../schedules/schedule-dialog/schedule-dialog.component';
 
 @Component({
   selector: 'app-plant-detail',
@@ -19,7 +22,8 @@ import { Plant, PlantStatus } from '../../../core/models/plant.model';
     MatButtonModule,
     MatTabsModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   templateUrl: './plant-detail.component.html',
   styleUrls: ['./plant-detail.component.css'],
@@ -28,6 +32,8 @@ import { Plant, PlantStatus } from '../../../core/models/plant.model';
 export class PlantDetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private plantService = inject(PlantService);
+  public careService = inject(CareService);
+  private dialog = inject(MatDialog);
 
   plant = signal<Plant | null>(null);
   isLoading = signal(true);
@@ -50,6 +56,7 @@ export class PlantDetailComponent implements OnInit {
         next: (plant) => {
           this.plant.set(plant);
           this.isLoading.set(false);
+          this.careService.getSchedulesByPlant(plant.id).subscribe();
           this.debugLog('initial', 'H3', 'plant-detail.component.ts:ngOnInit:next', 'Plant loaded for details page', {
             plantId: plant.id,
             status: plant.status,
@@ -73,6 +80,17 @@ export class PlantDetailComponent implements OnInit {
       hasPlant: !!plant,
       plantId: plant?.id ?? null
     });
+  }
+
+  openAddSchedule(): void {
+    const plant = this.plant();
+    if (plant) {
+      this.dialog.open(ScheduleDialogComponent, {
+        width: '500px',
+        panelClass: 'schedule-modal-panel',
+        data: { plantId: plant.id }
+      });
+    }
   }
 
   onArchivePlant(): void {

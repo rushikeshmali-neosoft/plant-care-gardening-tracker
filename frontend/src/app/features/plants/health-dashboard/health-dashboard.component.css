@@ -1,16 +1,17 @@
 .dashboard-container {
   padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .header-left {
@@ -19,189 +20,221 @@
   gap: 16px;
 }
 
-.dashboard-header h1 {
-  font-size: 32px;
+.header-left h1 {
+  font-size: 28px;
   margin: 0;
 }
 
 .subtitle {
   color: var(--text-muted);
+  margin: 0;
 }
 
 .health-badge {
-  background: rgba(139, 168, 136, 0.1);
-  color: var(--primary-light);
+  background: var(--primary-50);
+  color: var(--primary-color);
   padding: 8px 16px;
   border-radius: 12px;
   font-weight: 600;
-  font-size: 14px;
+  box-shadow: var(--shadow-sm);
 }
 
+/* ─── Grid ─── */
 .diagnostic-grid {
   display: grid;
-  grid-template-columns: 350px 1fr;
-  grid-template-rows: auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 24px;
 }
 
-.score-card {
-  padding: 32px;
+/* ─── Cards ─── */
+.glass-card {
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  text-align: center;
+  gap: 20px;
 }
 
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-main);
+}
+
+.card-header p {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.card-header mat-icon {
+  color: var(--primary-color);
+  opacity: 0.8;
+}
+
+/* ─── Gauge ─── */
 .gauge-container {
-  position: relative;
-  width: 200px;
-  height: 100px;
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
 }
 
 .gauge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
+  position: relative;
+  width: 160px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 80px 80px 0 0;
   background: var(--bg-color);
 }
 
 .gauge-fill {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: conic-gradient(var(--primary-light) 180deg, transparent 0);
-  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 180deg, #ff4d4d, #ffcc00, #4caf50);
+  transform-origin: center top;
 }
 
 .gauge-cover {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 180px;
-  height: 180px;
-  background: #1a1f1b;
-  border-radius: 50%;
+  right: 10px;
+  bottom: 0;
+  background: white;
+  border-radius: 80px 80px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding-top: 40px;
+  justify-content: flex-end;
+  padding-bottom: 5px;
 }
 
 .score-value {
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 32px;
+  font-weight: 700;
   color: var(--text-main);
-  line-height: 1;
 }
 
 .score-label {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: var(--text-muted);
 }
 
-.status-summary .highlight {
-  color: var(--primary-light);
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.trend-card {
-  padding: 24px;
+/* ─── Lists ─── */
+.data-list {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 12px;
 }
 
-.chart-wrapper {
-  height: 200px;
-  width: 100%;
-}
-
-svg {
-  width: 100%;
-  height: 100%;
-}
-
-.trend-line {
-  fill: none;
-  stroke: var(--primary-light);
-  stroke-width: 3;
-  stroke-linecap: round;
-  filter: drop-shadow(0 0 8px rgba(139, 168, 136, 0.4));
-}
-
-.indicators-card {
-  grid-column: 1 / -1;
-  padding: 24px;
-}
-
-.indicator-list {
+.data-item {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
-}
-
-.indicator-item {
-  display: flex;
-  gap: 16px;
-  padding: 16px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
   background: var(--bg-color);
   border-radius: 12px;
 }
 
-.status-marker {
-  width: 4px;
-  border-radius: 2px;
-  flex-shrink: 0;
+.severity-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
 
-.status-marker[data-status="EXCELLENT"] { background: #81c784; }
-.status-marker[data-status="GOOD"] { background: #a5d6a7; }
-.status-marker[data-status="FAIR"] { background: #fff176; }
-.status-marker[data-status="POOR"] { background: #ffb74d; }
-.status-marker[data-status="SICK"] { background: #ff8a65; }
+.severity-dot.low { background: #4caf50; }
+.severity-dot.medium { background: #ffcc00; }
+.severity-dot.high { background: #ff4d4d; }
 
-.item-header {
+.item-info {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 4px;
+  flex-direction: column;
 }
 
-.item-header .status {
+.item-info .title {
   font-weight: 600;
-  color: var(--text-main);
+  font-size: 14px;
 }
 
-.item-header .date {
+.item-info .meta {
   font-size: 12px;
   color: var(--text-muted);
 }
 
-.notes {
-  margin: 0;
-  font-size: 13px;
+/* ─── Env Stats ─── */
+.env-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-item .val {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.stat-item .lab {
+  font-size: 11px;
   color: var(--text-muted);
+  text-transform: uppercase;
 }
 
-.empty-list {
-  padding: 40px;
+/* ─── Recovery ─── */
+.recovery-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ─── Utils ─── */
+.success { color: #4caf50 !important; }
+.empty-state {
   text-align: center;
-  color: var(--primary-100);
+  padding: 20px;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 13px;
 }
 
-@media (max-width: 900px) {
+/* ─── Trends ─── */
+.chart-wrapper {
+  height: 150px;
+  width: 100%;
+}
+
+.trend-line {
+  fill: none;
+  stroke: var(--primary-color);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+@media (max-width: 768px) {
   .diagnostic-grid {
     grid-template-columns: 1fr;
   }

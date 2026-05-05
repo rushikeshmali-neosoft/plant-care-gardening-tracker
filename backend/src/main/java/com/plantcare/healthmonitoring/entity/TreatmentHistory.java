@@ -1,24 +1,23 @@
-package com.plantcare.carescheduling.entity;
+package com.plantcare.healthmonitoring.entity;
 
 import com.plantcare.plantcatalog.entity.Plant;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "care_schedules")
+@Table(name = "treatment_history")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class CareSchedule {
+public class TreatmentHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,36 +27,19 @@ public class CareSchedule {
     @JoinColumn(name = "plant_id", nullable = false)
     private Plant plant;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private CareType careType;
+    private String treatmentName; // e.g., Fungicide, Repotting, Fertilizer adjustment
 
     @Column(nullable = false)
-    private Integer frequencyDays;
-
-    @Column(nullable = false)
-    private LocalDate nextDueDate;
+    private LocalDate appliedDate;
 
     @Column(length = 500)
     private String notes;
 
+    @Column(nullable = false)
+    private Boolean isEffective;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    public enum CareType {
-        WATERING,
-        FERTILIZING,
-        PRUNING,
-        REPOTTING,
-        MISTING
-    }
 }
-
-
-
-

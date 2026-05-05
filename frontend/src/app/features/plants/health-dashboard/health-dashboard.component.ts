@@ -31,40 +31,25 @@ export class HealthDashboardComponent implements OnInit {
 
   // Health Score calculation (0-100)
   currentHealthScore = computed(() => {
-    const indicators = this.healthService.healthIndicators();
-    if (indicators.length === 0) return 85; // Default healthy
+    const analysis = this.healthService.healthAnalysis();
+    if (!analysis || analysis.indicators.length === 0) return 85; // Default healthy
 
-    const latest = indicators[0].healthStatus;
-    switch (latest) {
-      case HealthStatus.EXCELLENT: return 100;
-      case HealthStatus.GOOD: return 80;
-      case HealthStatus.FAIR: return 60;
-      case HealthStatus.POOR: return 40;
-      case HealthStatus.SICK: return 20;
-      default: return 85;
-    }
+    return analysis.indicators[0].healthScore;
   });
 
   // SVG trend points for health over time
   healthTrendPoints = computed(() => {
-    const records = [...this.healthService.healthIndicators()].reverse();
-    if (records.length < 2) return '';
+    const analysis = this.healthService.healthAnalysis();
+    if (!analysis || analysis.indicators.length < 2) return '';
 
+    const records = [...analysis.indicators].reverse();
     const width = 600;
     const height = 150;
     const step = width / (records.length - 1);
     
-    const statusMap: Record<HealthStatus, number> = {
-      [HealthStatus.EXCELLENT]: 100,
-      [HealthStatus.GOOD]: 80,
-      [HealthStatus.FAIR]: 60,
-      [HealthStatus.POOR]: 40,
-      [HealthStatus.SICK]: 20
-    };
-
     return records.map((r, i) => {
       const x = i * step;
-      const y = height - (statusMap[r.healthStatus] / 100 * height);
+      const y = height - (r.healthScore / 100 * height);
       return `${x},${y}`;
     }).join(' ');
   });
@@ -73,7 +58,7 @@ export class HealthDashboardComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id) {
       this.plantId.set(id);
-      this.healthService.getHealthByPlant(id).subscribe();
+      this.healthService.getFullAnalysis(id).subscribe();
       this.growthService.getMeasurementsByPlant(id).subscribe();
     }
   }

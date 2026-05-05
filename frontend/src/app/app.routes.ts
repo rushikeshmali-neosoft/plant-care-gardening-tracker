@@ -12,6 +12,7 @@ import { CareGuideDetailComponent } from './features/knowledge/guide-detail/guid
 import { CareCalendarComponent } from './features/schedules/care-calendar/care-calendar.component';
 import { MainLayoutComponent } from './core/layout/main-layout/main-layout.component';
 import { authGuard } from './core/guards/auth.guard';
+import { HealthListComponent } from './features/health/health-list/health-list.component';
 
 import { ScheduleListComponent } from './features/schedules/schedule-list/schedule-list.component';
 
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: 'plants/:id/growth', component: GrowthHistoryComponent },
       { path: 'plants/:id/history', component: CareHistoryComponent },
       { path: 'plants/:id/health', component: HealthDashboardComponent },
+      { path: 'health', component: HealthListComponent },
       { path: 'knowledge', component: CareGuideListComponent },
       { path: 'knowledge/:id', component: CareGuideDetailComponent },
       {

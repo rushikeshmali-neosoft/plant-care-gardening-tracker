@@ -35,6 +35,16 @@ public class HealthController {
         return ResponseEntity.ok(indicators);
     }
 
+    @Operation(summary = "Get full health analysis", description = "Retrieves a comprehensive health analysis for a specific plant")
+    @GetMapping("/analysis")
+    public ResponseEntity<HealthAnalysisDto> getFullHealthAnalysis(
+            @PathVariable Long plantId,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+        
+        HealthAnalysisDto analysis = healthService.getFullHealthAnalysis(plantId, userDetails.getUser().getId());
+        return ResponseEntity.ok(analysis);
+    }
+
     @Operation(summary = "Add health indicator", description = "Adds a new health indicator for a plant")
     @PostMapping
     public ResponseEntity<HealthIndicatorDto> addHealthIndicator(

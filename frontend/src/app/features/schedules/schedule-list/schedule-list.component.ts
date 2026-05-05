@@ -7,6 +7,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { CareService } from '../../../core/services/care.service';
 import { CareType } from '../../../core/models/care.model';
+import { ScheduleDialogComponent } from '../schedule-dialog/schedule-dialog.component';
 
 @Component({
   selector: 'app-schedule-list',
@@ -27,7 +28,7 @@ export class ScheduleListComponent implements OnInit {
   careService = inject(CareService);
   private dialog = inject(MatDialog);
 
-  displayedColumns: string[] = ['type', 'frequency', 'nextDue', 'notes', 'actions'];
+  displayedColumns: string[] = ['plant', 'type', 'frequency', 'nextDue', 'notes', 'actions'];
 
   ngOnInit(): void {
     // Load all schedules globally for the list view
@@ -37,9 +38,12 @@ export class ScheduleListComponent implements OnInit {
   }
 
   onDelete(scheduleId: number): void {
-    if (confirm('Are you sure you want to delete this schedule?')) {
-      // We'd need plantId here — for now show a message
-      console.warn('Delete requires plantId. Use plant detail page to delete schedules.');
+    const schedule = this.careService.schedules().find(s => s.id === scheduleId);
+    if (schedule && confirm('Are you sure you want to delete this schedule?')) {
+      this.careService.deleteSchedule(schedule.plantId, scheduleId).subscribe({
+        next: () => this.careService.getAllSchedules().subscribe(),
+        error: (err) => console.error('Delete failed', err)
+      });
     }
   }
 
@@ -54,6 +58,9 @@ export class ScheduleListComponent implements OnInit {
   }
 
   openAddScheduleDialog(): void {
-    console.log('Open Add Schedule Dialog - select a plant first from My Plants');
+    this.dialog.open(ScheduleDialogComponent, {
+      width: '500px',
+      panelClass: 'schedule-modal-panel'
+    });
   }
 }

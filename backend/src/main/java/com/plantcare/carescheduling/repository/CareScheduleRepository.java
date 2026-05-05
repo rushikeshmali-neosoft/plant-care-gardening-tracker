@@ -11,9 +11,10 @@ import org.springframework.data.jpa.repository.Query;
 
 @Repository
 public interface CareScheduleRepository extends JpaRepository<CareSchedule, Long> {
-    List<CareSchedule> findByPlantId(Long plantId);
+    @Query("SELECT s FROM CareSchedule s JOIN FETCH s.plant WHERE s.plant.id = :plantId")
+    List<CareSchedule> findByPlantId(@Param("plantId") Long plantId);
 
-    @Query("SELECT s FROM CareSchedule s WHERE s.plant.user.id = :userId")
+    @Query("SELECT s FROM CareSchedule s JOIN FETCH s.plant WHERE s.plant.user.id = :userId")
     List<CareSchedule> findByUserId(@Param("userId") Long userId);
 }
 

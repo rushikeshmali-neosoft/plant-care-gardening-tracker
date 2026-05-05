@@ -101,6 +101,18 @@
   background: var(--primary-50) !important;
 }
 
+.plant-link {
+  font-weight: 600;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.plant-link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
 .type-cell {
   display: flex;
   align-items: center;

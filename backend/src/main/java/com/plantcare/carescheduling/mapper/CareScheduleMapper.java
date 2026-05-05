@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface CareScheduleMapper {
 
     @Mapping(target = "plantId", source = "plant.id")
+    @Mapping(target = "plantName", source = "plant.commonName")
     CareScheduleDto toDto(CareSchedule careSchedule);
 
     @Mapping(target = "id", ignore = true)

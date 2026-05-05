@@ -30,8 +30,8 @@
       </div>
       <div class="status-summary">
         <h3>Current Condition</h3>
-        <p class="status-text" *ngIf="healthService.healthIndicators().length > 0">
-          Plant is currently in <span class="highlight">{{ getStatusLabel(healthService.healthIndicators()[0].healthStatus) }}</span> status based on last assessment.
+        <p class="status-text" *ngIf="healthService.healthAnalysis()?.indicators?.length">
+          Plant is currently in <span class="highlight">{{ getStatusLabel(healthService.healthAnalysis()!.indicators[0].healthStatus) }}</span> status.
         </p>
       </div>
     </section>
@@ -40,7 +40,7 @@
     <section class="trend-card glass-card">
       <div class="card-header">
         <h3>Vitality Trend</h3>
-        <p>Longitudinal health assessment</p>
+        <p>Health score progression</p>
       </div>
       <div class="chart-wrapper">
         <svg viewBox="0 0 600 150" preserveAspectRatio="none">
@@ -56,24 +56,87 @@
       </div>
     </section>
 
-    <!-- Indicators List -->
-    <section class="indicators-card glass-card">
-      <h3>Recent Assessments</h3>
-      <div class="indicator-list">
-        <div class="indicator-item" *ngFor="let h of healthService.healthIndicators().slice(0, 5)">
-          <div class="status-marker" [attr.data-status]="h.healthStatus"></div>
-          <div class="indicator-content">
-            <div class="item-header">
-              <span class="status">{{ h.healthStatus | titlecase }}</span>
-              <span class="date">{{ h.recordedDate | date:'MMM d' }}</span>
-            </div>
-            <p class="notes" *ngIf="h.notes">{{ h.notes }}</p>
+    <!-- Symptoms & Disease Tracking -->
+    <section class="symptoms-card glass-card">
+      <div class="card-header">
+        <h3>Symptom Logging</h3>
+        <mat-icon>bug_report</mat-icon>
+      </div>
+      <div class="data-list">
+        <div class="data-item" *ngFor="let s of healthService.healthAnalysis()?.symptoms">
+          <div class="severity-dot" [class]="s.severity.toLowerCase()"></div>
+          <div class="item-info">
+            <span class="title">{{ s.symptom }}</span>
+            <span class="meta">{{ s.observedDate | date:'MMM d' }} • {{ s.severity }} severity</span>
           </div>
         </div>
-        <div *ngIf="healthService.healthIndicators().length === 0" class="empty-list">
-          <mat-icon>analytics</mat-icon>
-          <p>No health indicators recorded yet.</p>
+        <div *ngIf="!healthService.healthAnalysis()?.symptoms?.length" class="empty-state">
+          No symptoms recorded.
         </div>
+      </div>
+    </section>
+
+    <!-- Treatment History -->
+    <section class="treatments-card glass-card">
+      <div class="card-header">
+        <h3>Treatment History</h3>
+        <mat-icon>medical_services</mat-icon>
+      </div>
+      <div class="data-list">
+        <div class="data-item" *ngFor="let t of healthService.healthAnalysis()?.treatments">
+          <mat-icon [class.success]="t.isEffective">{{ t.isEffective ? 'check_circle' : 'pending' }}</mat-icon>
+          <div class="item-info">
+            <span class="title">{{ t.treatmentName }}</span>
+            <span class="meta">{{ t.appliedDate | date:'MMM d' }} • {{ t.isEffective ? 'Effective' : 'In progress' }}</span>
+          </div>
+        </div>
+        <div *ngIf="!healthService.healthAnalysis()?.treatments?.length" class="empty-state">
+          No treatments logged.
+        </div>
+      </div>
+    </section>
+
+    <!-- Environmental Factors -->
+    <section class="env-card glass-card">
+      <div class="card-header">
+        <h3>Environmental Factors</h3>
+        <mat-icon>thermostat</mat-icon>
+      </div>
+      <div class="env-stats" *ngIf="healthService.healthAnalysis()?.environmentalFactors?.length">
+        <div class="stat-item">
+          <span class="val">{{ healthService.healthAnalysis()!.environmentalFactors[0].temperature }}°C</span>
+          <span class="lab">Temp</span>
+        </div>
+        <div class="stat-item">
+          <span class="val">{{ healthService.healthAnalysis()!.environmentalFactors[0].humidity }}%</span>
+          <span class="lab">Humidity</span>
+        </div>
+        <div class="stat-item">
+          <span class="val">{{ healthService.healthAnalysis()!.environmentalFactors[0].lightCondition }}</span>
+          <span class="lab">Light</span>
+        </div>
+      </div>
+      <div *ngIf="!healthService.healthAnalysis()?.environmentalFactors?.length" class="empty-state">
+        No environmental data.
+      </div>
+    </section>
+
+    <!-- Recovery Tracking -->
+    <section class="recovery-card glass-card">
+      <div class="card-header">
+        <h3>Recovery Tracking</h3>
+        <mat-icon>healing</mat-icon>
+      </div>
+      <div class="recovery-content" *ngIf="healthService.healthAnalysis()?.recoveryRecords?.length">
+        <div class="progress-info">
+          <span>Overall Recovery</span>
+          <span>{{ healthService.healthAnalysis()!.recoveryRecords[0].progressPercentage }}%</span>
+        </div>
+        <mat-progress-bar mode="determinate" [value]="healthService.healthAnalysis()!.recoveryRecords[0].progressPercentage"></mat-progress-bar>
+        <p class="meta">Started: {{ healthService.healthAnalysis()!.recoveryRecords[0].startDate | date }}</p>
+      </div>
+      <div *ngIf="!healthService.healthAnalysis()?.recoveryRecords?.length" class="empty-state">
+        No recovery records.
       </div>
     </section>
   </div>

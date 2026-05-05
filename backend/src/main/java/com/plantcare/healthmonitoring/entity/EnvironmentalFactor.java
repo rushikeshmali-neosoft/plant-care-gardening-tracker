@@ -6,18 +6,17 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "health_indicators")
+@Table(name = "environmental_factors")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class HealthIndicator {
+public class EnvironmentalFactor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,27 +26,11 @@ public class HealthIndicator {
     @JoinColumn(name = "plant_id", nullable = false)
     private Plant plant;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private HealthStatus healthStatus;
-
-    @Column(nullable = false)
-    private Integer healthScore; // 0-100
-
-    @Column(nullable = false)
-    private LocalDate recordedDate;
-
-    @Column(length = 500)
-    private String notes;
+    private Double temperature; // Celsius
+    private Double humidity; // Percentage
+    private String lightCondition; // e.g., Direct Sun, Partial Shade
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    public enum HealthStatus {
-        EXCELLENT, GOOD, POOR, CRITICAL
-    }
+    private LocalDateTime recordedAt;
 }
-
-
-

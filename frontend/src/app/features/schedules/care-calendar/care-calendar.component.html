@@ -5,6 +5,10 @@
       <p class="subtitle">{{ currentDate() | date:'MMMM yyyy' }}</p>
     </div>
     <div class="header-right">
+      <button mat-flat-button class="btn-primary" (click)="openAddScheduleDialog()">
+        <mat-icon>add</mat-icon>
+        Add Schedule
+      </button>
       <div class="view-switcher glass-card">
         <button mat-button class="active">Calendar</button>
         <button mat-button routerLink="/schedules/list">List View</button>
@@ -30,7 +34,9 @@
       <div *ngFor="let day of calendarDays()" 
            class="day-cell" 
            [class.other-month]="!day.isCurrentMonth"
-           [class.today]="day.isToday">
+           [class.today]="day.isToday"
+           [class.selected]="selectedDay()?.date?.getTime() === day.date.getTime()"
+           (click)="selectDay(day)">
         
         <span class="day-number">{{ day.date.getDate() }}</span>
         
@@ -38,7 +44,9 @@
           <div *ngFor="let task of day.tasks.slice(0, 3)" 
                class="task-dot" 
                [class.water]="task.careType === 'WATERING'"
-               [class.feed]="task.careType === 'FERTILIZING'">
+               [class.feed]="task.careType === 'FERTILIZING'"
+               [class.prune]="task.careType === 'PRUNING'"
+               [class.repot]="task.careType === 'REPOTTING'">
             <mat-icon>{{ getCareIcon(task.careType) }}</mat-icon>
           </div>
           <span *ngIf="day.tasks.length > 3" class="more-tasks">+{{ day.tasks.length - 3 }}</span>
@@ -47,9 +55,40 @@
     </div>
   </div>
 
+  <div class="schedule-details fade-in" *ngIf="selectedDay()">
+    <div class="details-header">
+      <h3>Schedules for {{ selectedDay()?.date | date:'longDate' }}</h3>
+      <span class="task-count">{{ selectedDay()?.tasks?.length || 0 }} tasks</span>
+    </div>
+
+    <div class="tasks-list" *ngIf="selectedDay()?.tasks?.length; else emptyTasks">
+      <div *ngFor="let task of selectedDay()?.tasks" class="task-item glass-card">
+        <div class="task-icon" [class]="task.careType.toLowerCase()">
+          <mat-icon>{{ getCareIcon(task.careType) }}</mat-icon>
+        </div>
+        <div class="task-info">
+          <h4>{{ task.careType | titlecase }} - {{ task.plantName || 'Plant' }}</h4>
+          <p class="notes" *ngIf="task.notes">{{ task.notes }}</p>
+          <p class="meta">Every {{ task.frequencyDays }} days</p>
+        </div>
+        <button mat-icon-button color="primary" (click)="completeTask(task)">
+          <mat-icon>check_circle</mat-icon>
+        </button>
+      </div>
+    </div>
+    <ng-template #emptyTasks>
+      <div class="empty-state glass-card">
+        <mat-icon>event_available</mat-icon>
+        <p>No care schedules for this date.</p>
+        <button mat-button color="primary" (click)="openAddScheduleDialog()">Add one now</button>
+      </div>
+    </ng-template>
+  </div>
+
   <aside class="legend glass-card">
     <div class="legend-item"><span class="dot water"></span> Watering</div>
     <div class="legend-item"><span class="dot feed"></span> Fertilizing</div>
     <div class="legend-item"><span class="dot prune"></span> Pruning</div>
+    <div class="legend-item"><span class="dot repot"></span> Repotting</div>
   </aside>
 </div>

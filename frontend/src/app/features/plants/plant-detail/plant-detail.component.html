@@ -60,23 +60,32 @@
       <mat-tab-group class="detail-tabs">
         <mat-tab label="Care Schedule">
           <div class="tab-content">
-            <div class="task-list">
-              <div class="task-item upcoming stagger-1">
-                <mat-icon>water_drop</mat-icon>
+            <div class="task-actions" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+              <button mat-raised-button color="primary" (click)="openAddSchedule()">
+                <mat-icon>add</mat-icon> Add Schedule
+              </button>
+            </div>
+            <div class="task-list" *ngIf="careService.schedules().length > 0; else emptySchedules">
+              <div class="task-item stagger-1" *ngFor="let schedule of careService.schedules()">
+                <mat-icon *ngIf="schedule.careType === 'WATERING'">water_drop</mat-icon>
+                <mat-icon *ngIf="schedule.careType === 'FERTILIZING'">eco</mat-icon>
+                <mat-icon *ngIf="schedule.careType === 'PRUNING'">content_cut</mat-icon>
+                <mat-icon *ngIf="schedule.careType === 'REPOTTING'">layers</mat-icon>
+                <mat-icon *ngIf="schedule.careType === 'MISTING'">air</mat-icon>
+                
                 <div class="task-info">
-                  <p class="task-title">Next Watering</p>
-                  <p class="task-date">Tomorrow, 10:00 AM</p>
+                  <p class="task-title">{{ schedule.careType | titlecase }}</p>
+                  <p class="task-date">Due: {{ schedule.nextDueDate | date }} (Every {{ schedule.frequencyDays }} days)</p>
                 </div>
-                <button mat-icon-button color="primary"><mat-icon>done</mat-icon></button>
-              </div>
-              <div class="task-item stagger-2">
-                <mat-icon>eco</mat-icon>
-                <div class="task-info">
-                  <p class="task-title">Fertilization</p>
-                  <p class="task-date">In 12 days</p>
-                </div>
+                <button mat-icon-button color="primary" (click)="careService.markComplete(schedule.plantId, schedule.id).subscribe()"><mat-icon>done</mat-icon></button>
               </div>
             </div>
+            <ng-template #emptySchedules>
+              <div class="empty-state" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                <mat-icon style="font-size: 48px; width: 48px; height: 48px; opacity: 0.5;">event_note</mat-icon>
+                <p>No schedules configured for this plant.</p>
+              </div>
+            </ng-template>
           </div>
         </mat-tab>
         <mat-tab label="Growth Logs">

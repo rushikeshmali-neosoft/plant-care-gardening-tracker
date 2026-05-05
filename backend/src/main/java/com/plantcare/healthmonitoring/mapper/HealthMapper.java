@@ -1,8 +1,7 @@
 package com.plantcare.healthmonitoring.mapper;
 
-import com.plantcare.healthmonitoring.dto.CreateHealthIndicatorRequest;
-import com.plantcare.healthmonitoring.dto.HealthIndicatorDto;
-import com.plantcare.healthmonitoring.entity.HealthIndicator;
+import com.plantcare.healthmonitoring.dto.*;
+import com.plantcare.healthmonitoring.entity.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -16,6 +15,18 @@ public interface HealthMapper {
     @Mapping(target = "plant", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     HealthIndicator toEntity(CreateHealthIndicatorRequest request);
+
+    @Mapping(target = "plantId", source = "plant.id")
+    SymptomLogDto toDto(SymptomLog log);
+
+    @Mapping(target = "plantId", source = "plant.id")
+    TreatmentHistoryDto toDto(TreatmentHistory history);
+
+    @Mapping(target = "plantId", source = "plant.id")
+    EnvironmentalFactorDto toDto(EnvironmentalFactor factor);
+
+    @Mapping(target = "plantId", source = "plant.id")
+    RecoveryRecordDto toDto(RecoveryRecord record);
 }
 
 
