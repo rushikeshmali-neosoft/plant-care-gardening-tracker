@@ -9,13 +9,18 @@ import { CareGuide } from '../models/knowledge.model';
 })
 export class KnowledgeService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/knowledge`;
+  // Backend endpoints: /api/v1/knowledge/guides and /api/v1/knowledge/guides/{id}
+  private apiUrl = `${environment.apiUrl}/knowledge/guides`;
 
   careGuides = signal<CareGuide[]>([]);
   isLoading = signal(false);
 
-  getAllGuides(): Observable<CareGuide[]> {
+  getAllGuides(plantType?: string): Observable<CareGuide[]> {
     this.isLoading.set(true);
+    const url = plantType
+      ? `${environment.apiUrl}/knowledge?plantType=${encodeURIComponent(plantType)}`
+      : this.apiUrl;
+
     return this.http.get<CareGuide[]>(this.apiUrl).pipe(
       tap(data => {
         this.careGuides.set(data);
@@ -29,7 +34,7 @@ export class KnowledgeService {
   }
 
   searchGuides(query: string): Observable<CareGuide[]> {
-    return this.http.get<CareGuide[]>(`${this.apiUrl}/search?query=${query}`).pipe(
+    return this.http.get<CareGuide[]>(`${this.apiUrl}?search=${encodeURIComponent(query)}`).pipe(
       tap(data => this.careGuides.set(data))
     );
   }

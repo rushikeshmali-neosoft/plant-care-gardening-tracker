@@ -1,9 +1,9 @@
 ::ng-deep .notification-menu {
   width: 380px;
   max-height: 500px;
-  background: rgba(26, 31, 27, 0.95) !important;
+  background: #FFFFFF !important;
   backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 20px !important;
   margin-top: 12px;
 }
@@ -14,7 +14,7 @@
   justify-content: space-between;
   align-items: center;
   font-weight: 600;
-  color: white;
+  color: var(--text-main);
 }
 
 .menu-header span {
@@ -55,7 +55,7 @@
 
 .notif-icon.reminder { background: rgba(100, 181, 246, 0.1); color: #64b5f6; }
 .notif-icon.alert { background: rgba(255, 82, 82, 0.1); color: #ff5252; }
-.notif-icon.info { background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.6); }
+.notif-icon.info { background: var(--bg-color); color: var(--text-secondary); }
 
 .notif-text {
   flex-grow: 1;
@@ -67,14 +67,14 @@
 
 .notif-text .title {
   font-weight: 600;
-  color: white;
+  color: var(--text-main);
   font-size: 14px;
   margin-bottom: 4px;
 }
 
 .notif-text .message {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   white-space: normal;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -84,7 +84,7 @@
 
 .notif-text .time {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
   margin-top: 6px;
   display: block;
 }
@@ -100,7 +100,7 @@
 .empty-state {
   padding: 40px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-muted);
 }
 
 .empty-state mat-icon {

@@ -25,7 +25,7 @@
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
 }
 
 .trend-section {
@@ -35,7 +35,7 @@
 .trend-section h3 {
   margin: 0 0 20px 0;
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-secondary);
 }
 
 .chart-container {
@@ -61,24 +61,24 @@ svg {
 }
 
 ::ng-deep .mat-mdc-header-cell {
-  color: rgba(255, 255, 255, 0.4) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-muted) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.04) !important;
 }
 
 ::ng-deep .mat-mdc-cell {
-  color: rgba(255, 255, 255, 0.7) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  color: var(--text-secondary) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.04) !important;
 }
 
 .value {
   font-weight: 600;
-  color: white;
+  color: var(--text-main);
 }
 
 .notes-text {
   font-style: italic;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
 }
 
 .empty-cell {
@@ -90,6 +90,6 @@ svg {
   font-size: 40px;
   width: 40px;
   height: 40px;
-  color: rgba(255, 255, 255, 0.1);
+  color: var(--primary-100);
   margin-bottom: 12px;
 }

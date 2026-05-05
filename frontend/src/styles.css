@@ -190,3 +190,81 @@ input, select, textarea {
 }
 
 ::placeholder { color: var(--text-muted); }
+
+/* ─── Global Material Dialog Override ─── */
+.mat-mdc-dialog-container,
+.mdc-dialog__surface {
+  background: #FFFFFF !important;
+  color: var(--text-main) !important;
+  border-radius: 20px !important;
+}
+
+/* ─── Global Material Menu Override ─── */
+.mat-mdc-menu-panel {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.mat-mdc-menu-item {
+  color: var(--text-main) !important;
+}
+
+.mat-mdc-menu-item:hover {
+  background: var(--primary-50) !important;
+}
+
+/* ─── Global Material Table Override ─── */
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-header-cell {
+  color: var(--text-muted) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+.mat-mdc-cell {
+  color: var(--text-main) !important;
+  border-bottom-color: var(--border-color) !important;
+}
+
+/* ─── Global Material Chip Override ─── */
+.mat-mdc-chip {
+  background: var(--primary-50) !important;
+  color: var(--primary-color) !important;
+}
+
+/* ─── Global Material Select Panel ─── */
+.mat-mdc-select-panel {
+  background: #FFFFFF !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.mat-mdc-option {
+  color: var(--text-main) !important;
+}
+
+.mat-mdc-option:hover,
+.mat-mdc-option.mat-mdc-option-active {
+  background: var(--primary-50) !important;
+}
+
+/* ─── Global Form Fields ─── */
+.mat-mdc-form-field-subscript-wrapper {
+  color: var(--text-muted);
+}
+
+/* ─── Snackbar ─── */
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #1A2E1A;
+  --mdc-snackbar-supporting-text-color: #FFFFFF;
+}
+
+/* ─── Progress Bar ─── */
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-color: var(--primary-50);
+}

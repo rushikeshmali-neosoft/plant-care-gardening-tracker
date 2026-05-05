@@ -9,14 +9,16 @@ import { CareSchedule, CreateCareScheduleRequest } from '../models/care.model';
 })
 export class CareService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/care-schedules`;
+  // Backend endpoint: /api/v1/plants/{plantId}/schedules
+  private baseUrl = `${environment.apiUrl}/plants`;
 
   schedules = signal<CareSchedule[]>([]);
   isLoading = signal(false);
 
-  getSchedules(): Observable<CareSchedule[]> {
+  /** Get all schedules for a specific plant */
+  getSchedulesByPlant(plantId: number): Observable<CareSchedule[]> {
     this.isLoading.set(true);
-    return this.http.get<CareSchedule[]>(this.apiUrl).pipe(
+    return this.http.get<CareSchedule[]>(`${this.baseUrl}/${plantId}/schedules`).pipe(
       tap(schedules => {
         this.schedules.set(schedules);
         this.isLoading.set(false);
@@ -24,22 +26,22 @@ export class CareService {
     );
   }
 
-  getSchedulesByPlant(plantId: number): Observable<CareSchedule[]> {
-    return this.http.get<CareSchedule[]>(`${this.apiUrl}/plant/${plantId}`);
-  }
-
-  createSchedule(request: CreateCareScheduleRequest): Observable<CareSchedule> {
-    return this.http.post<CareSchedule>(this.apiUrl, request).pipe(
+  createSchedule(plantId: number, request: CreateCareScheduleRequest): Observable<CareSchedule> {
+    return this.http.post<CareSchedule>(`${this.baseUrl}/${plantId}/schedules`, request).pipe(
       tap(newSchedule => {
         this.schedules.update(current => [...current, newSchedule]);
       })
     );
   }
 
-  deleteSchedule(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+  markComplete(plantId: number, scheduleId: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/${plantId}/schedules/${scheduleId}/complete`, {});
+  }
+
+  deleteSchedule(plantId: number, scheduleId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${plantId}/schedules/${scheduleId}`).pipe(
       tap(() => {
-        this.schedules.update(current => current.filter(s => s.id !== id));
+        this.schedules.update(current => current.filter(s => s.id !== scheduleId));
       })
     );
   }

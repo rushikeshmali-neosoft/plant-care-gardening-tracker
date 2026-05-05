@@ -9,14 +9,15 @@ import { PlantMeasurement, CreateMeasurementRequest } from '../models/growth.mod
 })
 export class GrowthService {
   private http = inject(HttpClient);
-  private apiUrl = `${environment.apiUrl}/measurements`;
+  // Backend endpoint: /api/v1/plants/{plantId}/growth
+  private baseUrl = `${environment.apiUrl}/plants`;
 
   measurements = signal<PlantMeasurement[]>([]);
   isLoading = signal(false);
 
   getMeasurementsByPlant(plantId: number): Observable<PlantMeasurement[]> {
     this.isLoading.set(true);
-    return this.http.get<PlantMeasurement[]>(`${this.apiUrl}/plant/${plantId}`).pipe(
+    return this.http.get<PlantMeasurement[]>(`${this.baseUrl}/${plantId}/growth`).pipe(
       tap(data => {
         this.measurements.set(data);
         this.isLoading.set(false);
@@ -24,18 +25,18 @@ export class GrowthService {
     );
   }
 
-  addMeasurement(request: CreateMeasurementRequest): Observable<PlantMeasurement> {
-    return this.http.post<PlantMeasurement>(this.apiUrl, request).pipe(
+  addMeasurement(plantId: number, request: CreateMeasurementRequest): Observable<PlantMeasurement> {
+    return this.http.post<PlantMeasurement>(`${this.baseUrl}/${plantId}/growth`, request).pipe(
       tap(newRecord => {
         this.measurements.update(current => [newRecord, ...current]);
       })
     );
   }
 
-  deleteMeasurement(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+  deleteMeasurement(plantId: number, measurementId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${plantId}/growth/${measurementId}`).pipe(
       tap(() => {
-        this.measurements.update(current => current.filter(m => m.id !== id));
+        this.measurements.update(current => current.filter(m => m.id !== measurementId));
       })
     );
   }

@@ -1,58 +1,81 @@
 .plant-list-container {
-  padding: 40px;
+  padding: 36px 40px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 28px;
+  background: var(--bg-color);
+  min-height: 100%;
 }
 
+/* ─── Header ─── */
 .section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .section-header h1 {
-  font-size: 32px;
+  font-size: 28px;
+  font-weight: 700;
   margin: 0;
-  color: white;
+  color: var(--text-main);
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
   margin: 4px 0 0 0;
+  font-size: 14px;
 }
 
 .add-plant-btn {
-  height: 48px;
-  border-radius: 14px !important;
-  font-weight: 600;
+  height: 46px;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
   background: linear-gradient(135deg, var(--primary-color), var(--primary-light)) !important;
-  box-shadow: 0 4px 15px rgba(45, 90, 39, 0.4) !important;
+  color: #FFFFFF !important;
+  box-shadow: var(--shadow-green) !important;
+  transition: transform 0.18s !important;
 }
 
+.add-plant-btn:hover {
+  transform: translateY(-1px) !important;
+}
+
+/* ─── Plant Grid ─── */
 .plant-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 20px;
 }
 
 .plant-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 
 .plant-card:hover {
-  transform: translateY(-8px);
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-100);
 }
 
+/* ─── Card Image ─── */
 .card-image-container {
   position: relative;
   height: 180px;
   overflow: hidden;
+  background: var(--primary-50);
 }
 
 .plant-image {
@@ -63,9 +86,10 @@
 }
 
 .plant-card:hover .plant-image {
-  transform: scale(1.1);
+  transform: scale(1.07);
 }
 
+/* ─── Status Badge ─── */
 .status-badge {
   position: absolute;
   top: 12px;
@@ -75,128 +99,134 @@
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.5px;
 }
 
-.primary-glow { background: rgba(45, 90, 39, 0.6); color: #8BA888; }
-.dormant-glow { background: rgba(121, 85, 72, 0.6); color: #d7ccc8; }
-.prop-glow { background: rgba(33, 150, 243, 0.6); color: #bbdefb; }
+.primary-glow { background: rgba(46, 125, 50, 0.15); color: #2E7D32; border: 1px solid #A5D6A7; }
+.dormant-glow { background: rgba(121, 85, 72, 0.12); color: #5D4037; border: 1px solid #D7CCC8; }
+.prop-glow    { background: rgba(30, 136, 229, 0.12); color: #1565C0; border: 1px solid #BBDEFB; }
 
+/* ─── Card Content ─── */
 .card-content {
-  padding: 20px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  flex: 1;
 }
 
+.card-header { display: flex; flex-direction: column; gap: 3px; }
+
 .plant-name {
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 600;
   margin: 0;
-  color: white;
+  color: var(--text-main);
 }
 
 .scientific-name {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   font-style: italic;
 }
 
+/* ─── Health Indicator ─── */
 .health-indicator {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .indicator-label {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 ::ng-deep .health-bar.mat-mdc-progress-bar {
   height: 6px !important;
-  border-radius: 3px !important;
+  border-radius: 4px !important;
+  background-color: var(--primary-50) !important;
 }
 
 ::ng-deep .health-bar .mdc-linear-progress__bar-inner {
-  border-color: var(--primary-light) !important;
+  border-color: var(--primary-color) !important;
 }
 
+/* ─── Card Footer ─── */
 .card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 4px;
 }
 
 .location-tag {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-muted);
 }
 
 .location-tag mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+  color: var(--primary-color);
 }
 
 .action-btn {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted) !important;
 }
 
-.loading-state, .empty-state {
-  padding: 80px;
+/* ─── Loading / Empty ─── */
+.loading-state,
+.empty-state {
+  padding: 80px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
+  background: #FFFFFF;
+  border: 2px dashed var(--primary-100);
+  border-radius: 20px;
+}
+
+.loading-state p,
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 15px;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  color: var(--text-main);
+  margin: 0;
 }
 
 .empty-state mat-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  color: rgba(255, 255, 255, 0.1);
+  font-size: 60px;
+  width: 60px;
+  height: 60px;
+  color: var(--primary-100);
 }
 
-/* Responsive Queries */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
-  .plant-list-container {
-    padding: 24px;
-  }
-
-  .section-header h1 {
-    font-size: 26px;
-  }
-
-  .plant-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-  }
+  .plant-list-container { padding: 24px 20px; }
+  .section-header h1 { font-size: 22px; }
+  .plant-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
 }
 
 @media (max-width: 480px) {
-  .section-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .add-plant-btn {
-    width: 100%;
-  }
-
-  .plant-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card-image-container {
-    height: 220px;
-  }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .add-plant-btn { width: 100%; }
+  .plant-grid { grid-template-columns: 1fr; }
+  .card-image-container { height: 200px; }
 }

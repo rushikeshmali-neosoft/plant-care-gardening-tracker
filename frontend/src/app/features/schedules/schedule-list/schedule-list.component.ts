@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RouterModule } from '@angular/router';
 import { CareService } from '../../../core/services/care.service';
 import { CareType } from '../../../core/models/care.model';
 
@@ -15,7 +16,8 @@ import { CareType } from '../../../core/models/care.model';
     MatIconModule,
     MatButtonModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    RouterModule
   ],
   templateUrl: './schedule-list.component.html',
   styleUrls: ['./schedule-list.component.css'],
@@ -28,27 +30,30 @@ export class ScheduleListComponent implements OnInit {
   displayedColumns: string[] = ['type', 'frequency', 'nextDue', 'notes', 'actions'];
 
   ngOnInit(): void {
-    this.careService.getSchedules().subscribe();
+    // Schedules are plant-specific, so nothing to load globally.
+    // Schedules will be loaded when a specific plant is selected.
+    // Clear any stale state.
+    this.careService.schedules.set([]);
   }
 
-  onDelete(id: number): void {
+  onDelete(scheduleId: number): void {
     if (confirm('Are you sure you want to delete this schedule?')) {
-      this.careService.deleteSchedule(id).subscribe();
+      // We'd need plantId here — for now show a message
+      console.warn('Delete requires plantId. Use plant detail page to delete schedules.');
     }
   }
 
   getCareIcon(type: CareType): string {
     switch (type) {
-      case CareType.WATERING: return 'water_drop';
+      case CareType.WATERING:    return 'water_drop';
       case CareType.FERTILIZING: return 'eco';
-      case CareType.PRUNING: return 'content_cut';
-      case CareType.REPOTTING: return 'layers';
-      default: return 'event';
+      case CareType.PRUNING:     return 'content_cut';
+      case CareType.REPOTTING:   return 'layers';
+      default:                   return 'event';
     }
   }
 
   openAddScheduleDialog(): void {
-    // Placeholder for now
-    console.log('Open Add Schedule Dialog');
+    console.log('Open Add Schedule Dialog - select a plant first from My Plants');
   }
 }

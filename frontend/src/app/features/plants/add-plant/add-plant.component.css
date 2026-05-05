@@ -1,7 +1,7 @@
 .add-plant-dialog {
   padding: 32px;
   background: #1a1f1b;
-  color: white;
+  color: var(--text-main);
   min-width: 500px;
   border-radius: 20px;
 }
@@ -20,7 +20,7 @@
 }
 
 .close-btn {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
 }
 
 .plant-form {
