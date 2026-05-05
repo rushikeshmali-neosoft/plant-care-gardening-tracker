@@ -6,9 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 import { MatIconModule } from '@angular/material/icon';
-import { ProfileUpdateRequest } from '../../../core/models/auth.model';
+import { ProfileUpdateRequest } from '../../core/models/auth.model';
 
 @Component({
   selector: 'app-profile-modal',
@@ -174,7 +174,7 @@ export class ProfileModalComponent implements OnInit {
           this.isSaving = false;
           this.dialogRef.close(true);
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Failed to update profile', err);
           this.isSaving = false;
         }
