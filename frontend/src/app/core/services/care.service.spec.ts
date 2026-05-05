@@ -7,7 +7,9 @@ import { CareSchedule, CareType } from '../models/care.model';
 describe('CareService', () => {
   let service: CareService;
   let httpMock: HttpTestingController;
-  const apiUrl = `${environment.apiUrl}/care-schedules`;
+  // Backend uses nested route: /plants/{plantId}/schedules
+  const plantId = 1;
+  const apiUrl = `${environment.apiUrl}/plants/${plantId}/schedules`;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,12 +28,12 @@ describe('CareService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should fetch all schedules', () => {
+  it('should fetch schedules for a plant', () => {
     const mockSchedules: CareSchedule[] = [
-      { id: 1, careType: CareType.WATERING, frequencyDays: 7, nextDueDate: '2024-05-10' } as CareSchedule
+      { id: 1, plantId, careType: CareType.WATERING, frequencyDays: 7, nextDueDate: '2024-05-10' } as CareSchedule
     ];
 
-    service.getSchedules().subscribe(schedules => {
+    service.getSchedulesByPlant(plantId).subscribe(schedules => {
       expect(schedules.length).toBe(1);
       expect(schedules).toEqual(mockSchedules);
     });
@@ -41,11 +43,11 @@ describe('CareService', () => {
     req.flush(mockSchedules);
   });
 
-  it('should create a new schedule', () => {
-    const newSchedule: CareSchedule = { id: 2, careType: CareType.FERTILIZING } as CareSchedule;
-    const request = { plantId: 1, careType: CareType.FERTILIZING } as any;
+  it('should create a new schedule for a plant', () => {
+    const newSchedule: CareSchedule = { id: 2, plantId, careType: CareType.FERTILIZING } as CareSchedule;
+    const request = { plantId, careType: CareType.FERTILIZING } as any;
 
-    service.createSchedule(request).subscribe(schedule => {
+    service.createSchedule(plantId, request).subscribe(schedule => {
       expect(schedule).toEqual(newSchedule);
     });
 

@@ -58,7 +58,9 @@ export class CareCalendarComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.careService.getSchedules().subscribe();
+    // Schedules are plant-scoped (API: /plants/{plantId}/schedules).
+    // The calendar renders from whatever is already in careService.schedules signal.
+    // Data is loaded when the user views a specific plant's detail page.
   }
 
   private createDay(date: Date, isCurrentMonth: boolean, today: Date): CalendarDay {
