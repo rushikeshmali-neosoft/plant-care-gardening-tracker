@@ -105,6 +105,7 @@ com\plantcare\plantcatalog\entity\PlantGroup.class
 com\plantcare\plantcatalog\dto\UpdatePlantRequest.class
 com\plantcare\knowledgebase\dto\CareGuideDto$CareGuideDtoBuilder.class
 com\plantcare\plantcatalog\dto\CreateGroupRequest$CreateGroupRequestBuilder.class
+com\plantcare\carescheduling\controller\GlobalCareScheduleController.class
 com\plantcare\usermanagement\controller\AuthController.class
 com\plantcare\usermanagement\exception\UserAlreadyExistsException.class
 com\plantcare\plantcatalog\dto\PlantDto.class

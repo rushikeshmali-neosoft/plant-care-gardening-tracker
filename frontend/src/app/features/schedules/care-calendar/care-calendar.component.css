@@ -63,7 +63,7 @@
 }
 
 .day-cell {
-  background: #1a1f1b;
+  background: #FFFFFF;
   padding: 12px;
   display: flex;
   flex-direction: column;
@@ -73,15 +73,15 @@
 }
 
 .day-cell:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-color);
 }
 
 .day-cell.other-month {
-  background: #151a16;
+  background: #FAFAFA;
 }
 
 .day-cell.other-month .day-number {
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(0, 0, 0, 0.2);
 }
 
 .day-number {

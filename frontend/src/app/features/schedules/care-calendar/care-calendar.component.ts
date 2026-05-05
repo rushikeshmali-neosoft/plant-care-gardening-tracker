@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, inject, signal, computed } 
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 import { CareService } from '../../../core/services/care.service';
 import { CareSchedule, CareType } from '../../../core/models/care.model';
 
@@ -15,7 +16,7 @@ interface CalendarDay {
 @Component({
   selector: 'app-care-calendar',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule, RouterModule],
   templateUrl: './care-calendar.component.html',
   styleUrls: ['./care-calendar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -58,9 +59,10 @@ export class CareCalendarComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // Schedules are plant-scoped (API: /plants/{plantId}/schedules).
-    // The calendar renders from whatever is already in careService.schedules signal.
-    // Data is loaded when the user views a specific plant's detail page.
+    // Load all schedules globally for the calendar view
+    this.careService.getAllSchedules().subscribe({
+      error: (err: any) => console.error('Failed to load schedules', err)
+    });
   }
 
   private createDay(date: Date, isCurrentMonth: boolean, today: Date): CalendarDay {
@@ -83,6 +85,10 @@ export class CareCalendarComponent implements OnInit {
   prevMonth(): void {
     const d = this.currentDate();
     this.currentDate.set(new Date(d.getFullYear(), d.getMonth() - 1, 1));
+  }
+
+  resetToToday(): void {
+    this.currentDate.set(new Date());
   }
 
   getCareIcon(type: CareType): string {

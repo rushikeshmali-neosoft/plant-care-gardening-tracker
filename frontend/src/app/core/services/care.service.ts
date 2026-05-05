@@ -26,6 +26,17 @@ export class CareService {
     );
   }
 
+  /** Get all schedules for the user across all plants */
+  getAllSchedules(): Observable<CareSchedule[]> {
+    this.isLoading.set(true);
+    return this.http.get<CareSchedule[]>(`${environment.apiUrl}/schedules`).pipe(
+      tap(schedules => {
+        this.schedules.set(schedules);
+        this.isLoading.set(false);
+      })
+    );
+  }
+
   createSchedule(plantId: number, request: CreateCareScheduleRequest): Observable<CareSchedule> {
     return this.http.post<CareSchedule>(`${this.baseUrl}/${plantId}/schedules`, request).pipe(
       tap(newSchedule => {

@@ -6,6 +6,7 @@ C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\bac
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\activitylogging\repository\CareLogRepository.java
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\activitylogging\service\CareLogService.java
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\carescheduling\controller\CareScheduleController.java
+C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\carescheduling\controller\GlobalCareScheduleController.java
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\carescheduling\controller\TaskController.java
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\carescheduling\dto\CareScheduleDto.java
 C:\Users\User\Desktop\Project Workspace\Plants & Gardening Management System\backend\src\main\java\com\plantcare\carescheduling\dto\CreateCareScheduleRequest.java

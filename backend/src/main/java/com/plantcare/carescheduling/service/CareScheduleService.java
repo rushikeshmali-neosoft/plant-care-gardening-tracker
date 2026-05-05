@@ -36,6 +36,12 @@ public class CareScheduleService {
                 .collect(Collectors.toList());
     }
 
+    public List<CareScheduleDto> getAllSchedulesForUser(Long userId) {
+        return careScheduleRepository.findByUserId(userId).stream()
+                .map(careScheduleMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public CareScheduleDto createSchedule(Long plantId, Long userId, CreateCareScheduleRequest request) {
         Plant plant = plantRepository.findByIdAndUserId(plantId, userId)
                 .orElseThrow(() -> new PlantNotFoundException("Plant not found or does not belong to user"));

@@ -30,10 +30,10 @@ export class ScheduleListComponent implements OnInit {
   displayedColumns: string[] = ['type', 'frequency', 'nextDue', 'notes', 'actions'];
 
   ngOnInit(): void {
-    // Schedules are plant-specific, so nothing to load globally.
-    // Schedules will be loaded when a specific plant is selected.
-    // Clear any stale state.
-    this.careService.schedules.set([]);
+    // Load all schedules globally for the list view
+    this.careService.getAllSchedules().subscribe({
+      error: (err: any) => console.error('Failed to load schedules', err)
+    });
   }
 
   onDelete(scheduleId: number): void {
