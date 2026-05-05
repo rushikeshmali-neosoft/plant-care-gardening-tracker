@@ -4,6 +4,13 @@ export interface User {
   email: string;
   role: 'ROLE_USER' | 'ROLE_ADMIN';
   experienceLevel: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT';
+  preferences?: string;
+}
+
+export interface ProfileUpdateRequest {
+  name?: string;
+  experienceLevel?: 'BEGINNER' | 'INTERMEDIATE' | 'ADVANCED' | 'EXPERT';
+  preferences?: string;
 }
 
 export interface AuthResponse {

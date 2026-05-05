@@ -1,7 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/auth.model';
+import { AuthResponse, LoginRequest, RegisterRequest, User, ProfileUpdateRequest } from '../models/auth.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -60,5 +60,15 @@ export class AuthService {
         this.logout();
       }
     }
+  }
+
+  updateProfile(request: ProfileUpdateRequest): Observable<User> {
+    return this.http.put<User>(`${environment.apiUrl}/users/profile`, request).pipe(
+      tap(updatedUser => {
+        // Update localStorage and signal
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        this.userSignal.set(updatedUser);
+      })
+    );
   }
 }

@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { NotificationCenterComponent } from '../../../features/notifications/notification-center/notification-center.component';
+import { ProfileModalComponent } from '../../../features/profile/profile-modal.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule, MatMenuModule, NotificationCenterComponent],
+  imports: [CommonModule, MatIconModule, MatButtonModule, MatMenuModule, MatDialogModule, NotificationCenterComponent],
   template: `
     <header class="header">
       <div class="search-container">
@@ -31,7 +33,7 @@ import { NotificationCenterComponent } from '../../../features/notifications/not
         </div>
 
         <mat-menu #profileMenu="matMenu" class="profile-dropdown">
-          <button mat-menu-item>
+          <button mat-menu-item (click)="openProfile()">
             <mat-icon>person_outline</mat-icon>
             <span>My Profile</span>
           </button>
@@ -164,4 +166,12 @@ import { NotificationCenterComponent } from '../../../features/notifications/not
 })
 export class HeaderComponent {
   authService = inject(AuthService);
+  private dialog = inject(MatDialog);
+
+  openProfile(): void {
+    this.dialog.open(ProfileModalComponent, {
+      width: '450px',
+      panelClass: 'profile-modal-panel'
+    });
+  }
 }

@@ -63,7 +63,9 @@ public class UserService {
         User user = getUserById(userId);
         
         // Update fields
-        user.setName(request.getName());
+        if (request.getName() != null && !request.getName().trim().isEmpty()) {
+            user.setName(request.getName());
+        }
         
         if (request.getExperienceLevel() != null) {
             user.setExperienceLevel(request.getExperienceLevel());

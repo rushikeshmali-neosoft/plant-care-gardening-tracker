@@ -95,13 +95,13 @@
     </div>
 
     <aside class="side-actions slide-in stagger-2">
-      <button mat-raised-button color="primary" class="full-width-btn">
+      <button mat-raised-button color="primary" class="full-width-btn" (click)="onEditDetails()">
         <mat-icon>edit</mat-icon>
         Edit Details
       </button>
-      <button mat-stroked-button class="full-width-btn text-danger">
+      <button mat-stroked-button class="full-width-btn text-danger" (pointerdown)="onArchiveInteraction('pointerdown')" (mousedown)="onArchiveInteraction('mousedown')" (click)="onArchivePlant()" [disabled]="isArchiving()">
         <mat-icon>delete_outline</mat-icon>
-        Archive Plant
+        {{ isArchiving() ? 'Archiving...' : 'Archive Plant' }}
       </button>
     </aside>
   </div>

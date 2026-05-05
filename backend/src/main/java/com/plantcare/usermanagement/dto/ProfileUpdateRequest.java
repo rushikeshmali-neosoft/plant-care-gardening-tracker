@@ -16,9 +16,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Request for updating user profile")
 public class ProfileUpdateRequest {
 
-    @NotBlank(message = "Name is required")
     @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
-    @Schema(description = "User's full name", example = "John Doe", required = true)
+    @Schema(description = "User's full name", example = "John Doe", required = false)
     private String name;
 
     @Schema(description = "User's gardening experience level", example = "INTERMEDIATE")
