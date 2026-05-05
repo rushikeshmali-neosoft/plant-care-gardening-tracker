@@ -36,9 +36,9 @@ public class Notification {
     @Column(nullable = false)
     private NotificationType type;
 
-    @Column(nullable = false)
+    @Column(name = "is_read", nullable = false)
     @Builder.Default
-    private boolean isRead = false;
+    private boolean read = false;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

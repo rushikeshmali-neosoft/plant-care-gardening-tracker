@@ -71,7 +71,7 @@ public class NotificationControllerTest {
                 .title("Watering Reminder")
                 .message("Water your Monstera")
                 .type(Notification.NotificationType.REMINDER)
-                .isRead(false)
+                .read(false)
                 .createdAt(LocalDateTime.now())
                 .build();
     }

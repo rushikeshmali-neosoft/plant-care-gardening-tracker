@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthService {
   private readonly apiUrl = `${environment.apiUrl}/auth`;
-  
+
   // Reactive state using Signals
   private userSignal = signal<User | null>(null);
   currentUser = this.userSignal.asReadonly();
@@ -27,8 +27,13 @@ export class AuthService {
     );
   }
 
-  register(request: RegisterRequest): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/register`, request);
+  /**
+   * Register creates a new user account.
+   * Does NOT auto-login — user is redirected to login page after registration.
+   * Backend returns AuthResponse (201 Created) but we only use it to confirm success.
+   */
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request);
   }
 
   logout(): void {
@@ -48,7 +53,12 @@ export class AuthService {
   private loadUserFromStorage(): void {
     const userJson = localStorage.getItem('user');
     if (userJson) {
-      this.userSignal.set(JSON.parse(userJson));
+      try {
+        this.userSignal.set(JSON.parse(userJson));
+      } catch {
+        // Corrupted storage — clear it
+        this.logout();
+      }
     }
   }
 }

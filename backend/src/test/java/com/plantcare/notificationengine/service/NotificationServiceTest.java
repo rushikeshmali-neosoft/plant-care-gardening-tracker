@@ -47,7 +47,7 @@ public class NotificationServiceTest {
                 .title("Watering Reminder")
                 .message("Water your Monstera")
                 .type(Notification.NotificationType.REMINDER)
-                .isRead(false)
+                .read(false)
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -57,7 +57,7 @@ public class NotificationServiceTest {
                 .title("Watering Reminder")
                 .message("Water your Monstera")
                 .type(Notification.NotificationType.REMINDER)
-                .isRead(false)
+                .read(false)
                 .createdAt(LocalDateTime.now())
                 .build();
     }

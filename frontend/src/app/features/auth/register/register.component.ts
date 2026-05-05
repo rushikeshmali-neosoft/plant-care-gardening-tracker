@@ -42,7 +42,7 @@ export class RegisterComponent {
   registerForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(2)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]],
     experienceLevel: ['BEGINNER', [Validators.required]]
   }, { validators: passwordMatchValidator });
@@ -74,13 +74,17 @@ export class RegisterComponent {
       this.authService.register(request).subscribe({
         next: () => {
           this.isLoading.set(false);
-          this.router.navigate(['/auth/login'], { queryParams: { registered: true } });
+          // Registration successful — redirect to login so user can sign in
+          this.router.navigate(['/auth/login'], { queryParams: { registered: 'true' } });
         },
         error: (err) => {
           this.isLoading.set(false);
-          this.errorMessage.set(err.error?.message || 'Registration failed. Please try again.');
+          const serverMsg = err.error?.message || err.error?.email || err.error?.password || err.error?.name;
+          this.errorMessage.set(serverMsg || 'Registration failed. Please try again.');
         }
       });
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   }
 
