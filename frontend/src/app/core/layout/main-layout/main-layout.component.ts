@@ -24,11 +24,8 @@ import { HeaderComponent } from '../header/header.component';
       display: flex;
       height: 100vh;
       width: 100vw;
-      background: #0f1410; /* Deep botanical dark background */
-      background-image: 
-        radial-gradient(circle at 0% 0%, rgba(45, 90, 39, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(139, 168, 136, 0.1) 0%, transparent 50%);
-      color: white;
+      background: var(--bg-color);
+      color: var(--text-main);
       overflow: hidden;
     }
 
@@ -37,6 +34,7 @@ import { HeaderComponent } from '../header/header.component';
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      background: var(--bg-color);
     }
 
     .page-content {
@@ -44,7 +42,7 @@ import { HeaderComponent } from '../header/header.component';
       padding: 0;
       overflow-y: auto;
       scrollbar-width: thin;
-      scrollbar-color: var(--primary-color) transparent;
+      scrollbar-color: var(--primary-100) transparent;
     }
 
     .page-content::-webkit-scrollbar {
@@ -52,8 +50,12 @@ import { HeaderComponent } from '../header/header.component';
     }
 
     .page-content::-webkit-scrollbar-thumb {
-      background: var(--primary-color);
+      background: var(--primary-100);
       border-radius: 10px;
+    }
+
+    .page-content::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-light);
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

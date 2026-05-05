@@ -11,7 +11,7 @@ import { NotificationCenterComponent } from '../../../features/notifications/not
   standalone: true,
   imports: [CommonModule, MatIconModule, MatButtonModule, MatMenuModule, NotificationCenterComponent],
   template: `
-    <header class="header glass-header">
+    <header class="header">
       <div class="search-container">
         <mat-icon class="search-icon">search</mat-icon>
         <input type="text" placeholder="Search plants, guides..." class="search-input">
@@ -45,80 +45,78 @@ import { NotificationCenterComponent } from '../../../features/notifications/not
   `,
   styles: [`
     .header {
-      height: 80px;
-      padding: 0 40px;
+      height: 72px;
+      padding: 0 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .glass-header {
-      background: rgba(255, 255, 255, 0.02);
-      backdrop-filter: blur(10px);
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     .search-container {
       display: flex;
       align-items: center;
-      gap: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 10px 20px;
-      border-radius: 14px;
-      width: 400px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      gap: 10px;
+      background: var(--bg-color);
+      padding: 9px 18px;
+      border-radius: 12px;
+      width: 380px;
+      border: 1px solid var(--border-color);
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    .search-container:focus-within {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
     }
 
     .search-icon {
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
+      color: var(--text-muted);
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
     }
 
     .search-input {
       background: none;
       border: none;
-      color: white;
+      color: var(--text-main);
       width: 100%;
       outline: none;
       font-size: 14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
     }
 
     .actions-container {
       display: flex;
       align-items: center;
-      gap: 24px;
-    }
-
-    .action-btn {
-      color: rgba(255, 255, 255, 0.7);
-      position: relative;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 8px;
-      height: 8px;
-      background: var(--primary-light);
-      border-radius: 50%;
-      border: 2px solid #1a1a1a;
+      gap: 16px;
     }
 
     .profile-section {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       cursor: pointer;
-      padding: 6px 6px 6px 16px;
-      border-radius: 16px;
-      transition: background 0.2s;
+      padding: 6px 8px 6px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      transition: background 0.18s, box-shadow 0.18s;
     }
 
     .profile-section:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--bg-color);
+      box-shadow: var(--shadow-sm);
     }
 
     .user-info {
@@ -128,38 +126,38 @@ import { NotificationCenterComponent } from '../../../features/notifications/not
     }
 
     .user-name {
-      color: white;
-      font-size: 14px;
+      color: var(--text-main);
+      font-size: 13px;
       font-weight: 600;
+      line-height: 1.2;
     }
 
     .user-role {
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 12px;
+      color: var(--text-muted);
+      font-size: 11px;
       text-transform: capitalize;
+      line-height: 1.2;
     }
 
     .avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #FFFFFF;
       font-weight: 700;
-      font-size: 18px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 16px;
+      box-shadow: var(--shadow-green);
+      flex-shrink: 0;
     }
 
     @media (max-width: 768px) {
-      .search-container {
-        display: none;
-      }
-      .user-info {
-        display: none;
-      }
+      .search-container { display: none; }
+      .user-info { display: none; }
+      .header { padding: 0 16px; }
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

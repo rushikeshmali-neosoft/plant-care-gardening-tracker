@@ -10,16 +10,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   standalone: true,
   imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule, MatTooltipModule],
   template: `
-    <aside class="sidebar glass-sidebar">
+    <aside class="sidebar">
       <div class="logo-container">
-        <mat-icon class="logo-icon">eco</mat-icon>
+        <div class="logo-icon-wrap">
+          <mat-icon class="logo-icon">eco</mat-icon>
+        </div>
         <span class="logo-text">FloraCare</span>
       </div>
 
       <nav class="nav-menu">
-        <a *ngFor="let item of navItems" 
-           [routerLink]="item.path" 
-           routerLinkActive="active" 
+        <a *ngFor="let item of navItems"
+           [routerLink]="item.path"
+           routerLinkActive="active"
            class="nav-item"
            [matTooltip]="item.label"
            matTooltipPosition="right">
@@ -29,7 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       </nav>
 
       <div class="sidebar-footer">
-        <button mat-icon-button class="settings-btn">
+        <button mat-icon-button class="settings-btn" matTooltip="Settings" matTooltipPosition="right">
           <mat-icon>settings</mat-icon>
         </button>
       </div>
@@ -37,92 +39,111 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   `,
   styles: [`
     .sidebar {
-      width: 260px;
+      width: 240px;
       height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 24px;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .glass-sidebar {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
+      padding: 24px 16px;
+      background: #FFFFFF;
+      border-right: 1px solid var(--border-color);
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+      transition: width 0.3s ease;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 0 12px;
-      margin-bottom: 48px;
+      padding: 0 8px;
+      margin-bottom: 40px;
+    }
+
+    .logo-icon-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-green);
+      flex-shrink: 0;
     }
 
     .logo-icon {
-      color: var(--primary-light);
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
+      color: #FFFFFF;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
     }
 
     .logo-text {
       font-family: 'Outfit', sans-serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: white;
-      letter-spacing: 0.5px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      letter-spacing: 0.3px;
     }
 
     .nav-menu {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       flex: 1;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 12px 16px;
+      gap: 14px;
+      padding: 11px 14px;
       border-radius: 12px;
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-muted);
       text-decoration: none;
-      transition: all 0.2s ease;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.18s ease;
+    }
+
+    .nav-item mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
     }
 
     .nav-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
+      background: var(--primary-50);
+      color: var(--primary-color);
     }
 
     .nav-item.active {
-      background: rgba(255, 255, 255, 0.1);
-      color: var(--primary-light);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-    }
-
-    .nav-label {
-      font-size: 15px;
-      font-weight: 500;
+      background: var(--primary-50);
+      color: var(--primary-color);
+      font-weight: 600;
+      box-shadow: inset 3px 0 0 var(--primary-color);
     }
 
     .sidebar-footer {
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: center;
     }
 
     .settings-btn {
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--text-muted);
+      transition: color 0.18s;
+    }
+
+    .settings-btn:hover {
+      color: var(--primary-color);
     }
 
     @media (max-width: 992px) {
       .sidebar {
-        width: 80px;
-        padding: 24px 12px;
+        width: 72px;
+        padding: 24px 10px;
       }
       .logo-text, .nav-label {
         display: none;
@@ -131,16 +152,20 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         justify-content: center;
         padding: 0;
       }
+      .nav-item {
+        justify-content: center;
+        padding: 11px;
+      }
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   navItems = [
-    { label: 'Dashboard', icon: 'grid_view', path: '/dashboard' },
-    { label: 'My Plants', icon: 'local_florist', path: '/plants' },
-    { label: 'Schedules', icon: 'calendar_today', path: '/schedules' },
-    { label: 'Health', icon: 'health_and_safety', path: '/health' },
-    { label: 'Knowledge', icon: 'menu_book', path: '/knowledge' }
+    { label: 'Dashboard',  icon: 'grid_view',         path: '/dashboard' },
+    { label: 'My Plants',  icon: 'local_florist',     path: '/plants' },
+    { label: 'Schedules',  icon: 'calendar_today',    path: '/schedules' },
+    { label: 'Health',     icon: 'health_and_safety', path: '/health' },
+    { label: 'Knowledge',  icon: 'menu_book',         path: '/knowledge' }
   ];
 }
