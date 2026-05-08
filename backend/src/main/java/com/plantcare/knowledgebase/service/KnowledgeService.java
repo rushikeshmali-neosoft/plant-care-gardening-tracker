@@ -32,6 +32,20 @@ public class KnowledgeService {
                 .collect(Collectors.toList());
     }
 
+    @org.springframework.cache.annotation.Cacheable(value = "care-guides", key = "#category")
+    public List<CareGuideDto> getGuidesByCategory(String category) {
+        return careGuideRepository.findByCategoryContainingIgnoreCase(category).stream()
+                .map(knowledgeMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @org.springframework.cache.annotation.Cacheable(value = "care-guides", key = "#query")
+    public List<CareGuideDto> searchGuides(String query) {
+        return careGuideRepository.search(query).stream()
+                .map(knowledgeMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     public CareGuideDto getGuideById(Long id) {
         return careGuideRepository.findById(id)
                 .map(knowledgeMapper::toDto)

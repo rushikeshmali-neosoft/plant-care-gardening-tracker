@@ -49,39 +49,45 @@ import { ProfileModalComponent } from '../../../features/profile/profile-modal.c
     .header {
       height: 72px;
       padding: 0 32px;
+      margin: 16px 16px 0 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #FFFFFF;
-      border-bottom: 1px solid var(--border-color);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--glass-shadow);
       position: sticky;
-      top: 0;
-      z-index: 100;
+      top: 16px;
+      z-index: 99;
     }
 
     .search-container {
       display: flex;
       align-items: center;
-      gap: 10px;
-      background: var(--bg-color);
-      padding: 9px 18px;
-      border-radius: 12px;
-      width: 380px;
-      border: 1px solid var(--border-color);
-      transition: border-color 0.18s, box-shadow 0.18s;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      border-radius: 14px;
+      width: 400px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
     }
 
     .search-container:focus-within {
+      background: rgba(255, 255, 255, 0.4);
       border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.12);
+      box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+      width: 440px;
     }
 
     .search-icon {
-      color: var(--text-muted);
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
+      color: var(--text-secondary);
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
     }
 
     .search-input {
@@ -90,8 +96,9 @@ import { ProfileModalComponent } from '../../../features/profile/profile-modal.c
       color: var(--text-main);
       width: 100%;
       outline: none;
-      font-size: 14px;
+      font-size: 15px;
       font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
 
     .search-input::placeholder {
@@ -101,23 +108,23 @@ import { ProfileModalComponent } from '../../../features/profile/profile-modal.c
     .actions-container {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 20px;
     }
 
     .profile-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       cursor: pointer;
-      padding: 6px 8px 6px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border-color);
-      background: #FFFFFF;
-      transition: background 0.18s, box-shadow 0.18s;
+      padding: 6px 6px 6px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
     }
 
     .profile-section:hover {
-      background: var(--bg-color);
+      background: rgba(255, 255, 255, 0.4);
       box-shadow: var(--shadow-sm);
     }
 
@@ -129,29 +136,32 @@ import { ProfileModalComponent } from '../../../features/profile/profile-modal.c
 
     .user-name {
       color: var(--text-main);
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 14px;
+      font-weight: 700;
       line-height: 1.2;
     }
 
     .user-role {
-      color: var(--text-muted);
+      color: var(--text-secondary);
       font-size: 11px;
-      text-transform: capitalize;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       line-height: 1.2;
+      opacity: 0.8;
     }
 
     .avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       display: flex;
       align-items: center;
       justify-content: center;
       color: #FFFFFF;
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 800;
+      font-size: 18px;
       box-shadow: var(--shadow-green);
       flex-shrink: 0;
     }
@@ -159,7 +169,7 @@ import { ProfileModalComponent } from '../../../features/profile/profile-modal.c
     @media (max-width: 768px) {
       .search-container { display: none; }
       .user-info { display: none; }
-      .header { padding: 0 16px; }
+      .header { padding: 0 16px; margin: 12px 12px 0 12px; }
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush

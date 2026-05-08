@@ -39,29 +39,34 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   `,
   styles: [`
     .sidebar {
-      width: 240px;
-      height: 100vh;
+      width: 260px;
+      height: calc(100vh - 32px);
+      margin: 16px;
       display: flex;
       flex-direction: column;
-      padding: 24px 16px;
-      background: #FFFFFF;
-      border-right: 1px solid var(--border-color);
-      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
-      transition: width 0.3s ease;
+      padding: 32px 20px;
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      box-shadow: var(--glass-shadow);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
     }
 
     .logo-container {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0 8px;
-      margin-bottom: 40px;
+      gap: 14px;
+      padding: 0 10px;
+      margin-bottom: 48px;
     }
 
     .logo-icon-wrap {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
       display: flex;
       align-items: center;
@@ -72,78 +77,85 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
     .logo-icon {
       color: #FFFFFF;
-      font-size: 22px;
-      width: 22px;
-      height: 22px;
+      font-size: 24px;
+      width: 24px;
+      height: 24px;
     }
 
     .logo-text {
       font-family: 'Outfit', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--primary-dark);
-      letter-spacing: 0.3px;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
     }
 
     .nav-menu {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 8px;
       flex: 1;
     }
 
     .nav-item {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 11px 14px;
-      border-radius: 12px;
-      color: var(--text-muted);
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      color: var(--text-secondary);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 500;
-      transition: all 0.18s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .nav-item mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
+      opacity: 0.8;
     }
 
     .nav-item:hover {
-      background: var(--primary-50);
+      background: rgba(255, 255, 255, 0.5);
       color: var(--primary-color);
+      transform: translateX(4px);
     }
 
     .nav-item.active {
-      background: var(--primary-50);
-      color: var(--primary-color);
+      background: var(--primary-color);
+      color: white;
       font-weight: 600;
-      box-shadow: inset 3px 0 0 var(--primary-color);
+      box-shadow: 0 8px 16px rgba(45, 122, 58, 0.3);
+    }
+
+    .nav-item.active mat-icon {
+      opacity: 1;
     }
 
     .sidebar-footer {
-      padding-top: 20px;
-      border-top: 1px solid var(--border-color);
+      padding-top: 24px;
+      border-top: 1px solid var(--glass-border);
       display: flex;
       justify-content: center;
     }
 
     .settings-btn {
       color: var(--text-muted);
-      transition: color 0.18s;
+      transition: all 0.3s;
     }
 
     .settings-btn:hover {
       color: var(--primary-color);
+      transform: rotate(45deg);
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 1200px) {
       .sidebar {
-        width: 72px;
-        padding: 24px 10px;
+        width: 88px;
+        padding: 32px 14px;
       }
       .logo-text, .nav-label {
         display: none;
@@ -154,7 +166,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
       }
       .nav-item {
         justify-content: center;
-        padding: 11px;
+        padding: 14px;
       }
     }
   `],

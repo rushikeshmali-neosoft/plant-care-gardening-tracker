@@ -15,13 +15,17 @@ export class KnowledgeService {
   careGuides = signal<CareGuide[]>([]);
   isLoading = signal(false);
 
-  getAllGuides(plantType?: string): Observable<CareGuide[]> {
+  getAllGuides(category?: string, plantType?: string): Observable<CareGuide[]> {
     this.isLoading.set(true);
-    const url = plantType
-      ? `${environment.apiUrl}/knowledge?plantType=${encodeURIComponent(plantType)}`
-      : this.apiUrl;
+    let url = this.apiUrl;
+    
+    if (category && category !== 'All') {
+      url += `?category=${encodeURIComponent(category)}`;
+    } else if (plantType) {
+      url += `?plantType=${encodeURIComponent(plantType)}`;
+    }
 
-    return this.http.get<CareGuide[]>(this.apiUrl).pipe(
+    return this.http.get<CareGuide[]>(url).pipe(
       tap(data => {
         this.careGuides.set(data);
         this.isLoading.set(false);

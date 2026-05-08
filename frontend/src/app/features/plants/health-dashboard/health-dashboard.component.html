@@ -39,20 +39,19 @@
     <!-- Trend Chart -->
     <section class="trend-card glass-card">
       <div class="card-header">
-        <h3>Vitality Trend</h3>
-        <p>Health score progression</p>
+        <div class="header-text">
+          <h3>Vitality Trend</h3>
+          <p>Health score progression</p>
+        </div>
+        <div class="header-actions">
+          <button mat-icon-button><mat-icon>filter_list</mat-icon></button>
+        </div>
       </div>
       <div class="chart-wrapper">
-        <svg viewBox="0 0 600 150" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="healthGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="var(--primary-light)" stop-opacity="0.2" />
-              <stop offset="100%" stop-color="var(--primary-light)" stop-opacity="0" />
-            </linearGradient>
-          </defs>
-          <path class="area" [attr.d]="'M0,150 ' + healthTrendPoints() + ' L600,150 Z'" fill="url(#healthGrad)" />
-          <polyline class="trend-line" [attr.points]="healthTrendPoints()" />
-        </svg>
+        <canvas #healthChart></canvas>
+        <div *ngIf="healthService.isLoading()" class="chart-loader">
+          <mat-icon class="rotating">sync</mat-icon>
+        </div>
       </div>
     </section>
 

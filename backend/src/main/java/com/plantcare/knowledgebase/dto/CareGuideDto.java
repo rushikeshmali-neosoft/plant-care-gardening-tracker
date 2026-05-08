@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 public class CareGuideDto {
     private Long id;
     private String plantType;
+    private String category;
     private String title;
     private String content;
     private LocalDateTime createdAt;

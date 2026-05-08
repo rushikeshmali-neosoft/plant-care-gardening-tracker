@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-05T13:04:53+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
+    date = "2026-05-07T18:33:17+0530",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class GrowthMapperImpl implements GrowthMapper {
@@ -24,12 +24,12 @@ public class GrowthMapperImpl implements GrowthMapper {
         PlantMeasurementDto.PlantMeasurementDtoBuilder plantMeasurementDto = PlantMeasurementDto.builder();
 
         plantMeasurementDto.plantId( measurementPlantId( measurement ) );
-        plantMeasurementDto.id( measurement.getId() );
+        plantMeasurementDto.createdAt( measurement.getCreatedAt() );
         plantMeasurementDto.heightCm( measurement.getHeightCm() );
-        plantMeasurementDto.widthCm( measurement.getWidthCm() );
+        plantMeasurementDto.id( measurement.getId() );
         plantMeasurementDto.measurementDate( measurement.getMeasurementDate() );
         plantMeasurementDto.notes( measurement.getNotes() );
-        plantMeasurementDto.createdAt( measurement.getCreatedAt() );
+        plantMeasurementDto.widthCm( measurement.getWidthCm() );
 
         return plantMeasurementDto.build();
     }
@@ -43,9 +43,9 @@ public class GrowthMapperImpl implements GrowthMapper {
         PlantMeasurement.PlantMeasurementBuilder plantMeasurement = PlantMeasurement.builder();
 
         plantMeasurement.heightCm( request.getHeightCm() );
-        plantMeasurement.widthCm( request.getWidthCm() );
         plantMeasurement.measurementDate( request.getMeasurementDate() );
         plantMeasurement.notes( request.getNotes() );
+        plantMeasurement.widthCm( request.getWidthCm() );
 
         return plantMeasurement.build();
     }

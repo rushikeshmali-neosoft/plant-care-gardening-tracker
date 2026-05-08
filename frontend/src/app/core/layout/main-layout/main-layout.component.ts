@@ -24,7 +24,7 @@ import { HeaderComponent } from '../header/header.component';
       display: flex;
       height: 100vh;
       width: 100vw;
-      background: var(--bg-color);
+      background: transparent;
       color: var(--text-main);
       overflow: hidden;
     }
@@ -34,12 +34,12 @@ import { HeaderComponent } from '../header/header.component';
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      background: var(--bg-color);
+      background: transparent;
     }
 
     .page-content {
       flex: 1;
-      padding: 0;
+      padding: 16px 32px 32px 16px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--primary-100) transparent;

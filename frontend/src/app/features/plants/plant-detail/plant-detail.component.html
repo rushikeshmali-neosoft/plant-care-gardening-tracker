@@ -1,120 +1,130 @@
 <div class="detail-container fade-in" *ngIf="plant() as p">
   <nav class="breadcrumb">
-    <button mat-icon-button routerLink="/plants">
+    <button mat-icon-button routerLink="/plants" class="back-btn">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span>Catalog / {{ p.commonName }}</span>
+    <div class="crumb-text">
+      <span class="muted">Catalog</span>
+      <mat-icon>chevron_right</mat-icon>
+      <span class="current">{{ p.commonName }}</span>
+    </div>
   </nav>
 
   <section class="hero-section glass-card scale-in">
-    <div class="hero-image">
-      <img [src]="p.imageUrl || 'assets/images/login-bg.png'" [alt]="p.commonName">
+    <div class="hero-image-container">
+      <img [src]="p.imageUrl || 'assets/images/login-bg.png'" [alt]="p.commonName" class="hero-img">
+      <div class="img-overlay"></div>
     </div>
     <div class="hero-content">
       <div class="badge-row">
-        <span class="status-badge active-glow">{{ p.status }}</span>
-        <span class="location-badge">{{ p.locationType | titlecase }}</span>
+        <span class="status-badge" [attr.data-status]="p.status">{{ p.status }}</span>
+        <span class="location-badge glass-effect">
+          <mat-icon>{{ p.locationType === 'INDOOR' ? 'home' : 'wb_sunny' }}</mat-icon>
+          {{ p.locationType | titlecase }}
+        </span>
       </div>
-      <h1>{{ p.commonName }}</h1>
-      <p class="scientific">{{ p.scientificName }}</p>
+      <h1 class="plant-title">{{ p.commonName }}</h1>
+      <p class="scientific-name"><i>{{ p.scientificName }}</i></p>
       
-      <div class="health-summary" [routerLink]="['/plants', p.id, 'health']" style="cursor: pointer" matTooltip="Click for detailed health analysis">
-        <div class="score-label">
-          <span>Overall Health</span>
-          <span class="score">{{ getHealthScore() }}%</span>
+      <div class="health-overview" [routerLink]="['/plants', p.id, 'health']" matTooltip="View real-time health diagnostic">
+        <div class="overview-header">
+          <span class="label">Vitality Score</span>
+          <span class="value">{{ getHealthScore() }}%</span>
         </div>
-        <mat-progress-bar mode="determinate" [value]="getHealthScore()"></mat-progress-bar>
+        <div class="progress-track">
+          <div class="progress-fill" [style.width.%]="getHealthScore()"></div>
+        </div>
       </div>
     </div>
   </section>
 
   <div class="detail-grid">
-    <div class="main-stats slide-in stagger-1">
-      <div class="info-card glass-card">
-        <h3>Vital Statistics</h3>
-        <div class="stats-row">
-          <div class="stat-item">
-            <mat-icon>category</mat-icon>
-            <div>
-              <label>Species</label>
-              <p>{{ p.species || 'N/A' }}</p>
-            </div>
+    <div class="main-info-col slide-in stagger-1">
+      <div class="stats-card glass-card">
+        <div class="card-header">
+          <h3>Plant Profile</h3>
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <label>Species Group</label>
+            <p>{{ p.species || 'N/A' }}</p>
           </div>
-          <div class="stat-item">
-            <mat-icon>place</mat-icon>
-            <div>
-              <label>Location</label>
-              <p>{{ p.roomGarden || 'Not set' }}</p>
-            </div>
+          <div class="stat-box">
+            <label>Exact Location</label>
+            <p>{{ p.roomGarden || 'Central Area' }}</p>
           </div>
-          <div class="stat-item">
-            <mat-icon>calendar_today</mat-icon>
-            <div>
-              <label>Acquired</label>
-              <p>{{ p.purchaseDate | date }}</p>
-            </div>
+          <div class="stat-box">
+            <label>Collection Date</label>
+            <p>{{ p.purchaseDate | date:'longDate' }}</p>
           </div>
         </div>
       </div>
 
-      <mat-tab-group class="detail-tabs">
-        <mat-tab label="Care Schedule">
-          <div class="tab-content">
-            <div class="task-actions" style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
-              <button mat-raised-button color="primary" (click)="openAddSchedule()">
-                <mat-icon>add</mat-icon> Add Schedule
-              </button>
-            </div>
-            <div class="task-list" *ngIf="careService.schedules().length > 0; else emptySchedules">
-              <div class="task-item stagger-1" *ngFor="let schedule of careService.schedules()">
-                <mat-icon *ngIf="schedule.careType === 'WATERING'">water_drop</mat-icon>
-                <mat-icon *ngIf="schedule.careType === 'FERTILIZING'">eco</mat-icon>
-                <mat-icon *ngIf="schedule.careType === 'PRUNING'">content_cut</mat-icon>
-                <mat-icon *ngIf="schedule.careType === 'REPOTTING'">layers</mat-icon>
-                <mat-icon *ngIf="schedule.careType === 'MISTING'">air</mat-icon>
-                
-                <div class="task-info">
-                  <p class="task-title">{{ schedule.careType | titlecase }}</p>
-                  <p class="task-date">Due: {{ schedule.nextDueDate | date }} (Every {{ schedule.frequencyDays }} days)</p>
+      <div class="tabs-container glass-card">
+        <mat-tab-group class="custom-tabs">
+          <mat-tab label="Care Schedule">
+            <div class="tab-pane">
+              <div class="pane-header">
+                <h4>Maintenance Tasks</h4>
+                <button class="glass-btn-sm" (click)="openAddSchedule()">
+                  <mat-icon>add</mat-icon> Add Task
+                </button>
+              </div>
+              <div class="task-scroller" *ngIf="careService.schedules().length > 0; else emptySchedules">
+                <div class="care-task-item" *ngFor="let schedule of careService.schedules()">
+                  <div class="task-icon-wrap" [attr.data-type]="schedule.careType">
+                    <mat-icon *ngIf="schedule.careType === 'WATERING'">water_drop</mat-icon>
+                    <mat-icon *ngIf="schedule.careType === 'FERTILIZING'">bolt</mat-icon>
+                    <mat-icon *ngIf="schedule.careType === 'PRUNING'">content_cut</mat-icon>
+                    <mat-icon *ngIf="schedule.careType === 'REPOTTING'">layers</mat-icon>
+                  </div>
+                  <div class="task-body">
+                    <h5>{{ schedule.careType | titlecase }}</h5>
+                    <p>Next: {{ schedule.nextDueDate | date:'MMM d' }} • Every {{ schedule.frequencyDays }} days</p>
+                  </div>
+                  <button mat-icon-button class="complete-btn" (click)="careService.markComplete(schedule.plantId, schedule.id).subscribe()">
+                    <mat-icon>check_circle</mat-icon>
+                  </button>
                 </div>
-                <button mat-icon-button color="primary" (click)="careService.markComplete(schedule.plantId, schedule.id).subscribe()"><mat-icon>done</mat-icon></button>
               </div>
             </div>
-            <ng-template #emptySchedules>
-              <div class="empty-state" style="text-align: center; color: var(--text-muted); padding: 24px;">
-                <mat-icon style="font-size: 48px; width: 48px; height: 48px; opacity: 0.5;">event_note</mat-icon>
-                <p>No schedules configured for this plant.</p>
-              </div>
-            </ng-template>
-          </div>
-        </mat-tab>
-        <mat-tab label="Growth Logs">
-          <div class="tab-content empty" [routerLink]="['/plants', p.id, 'growth']" style="cursor: pointer">
-            <mat-icon>bar_chart</mat-icon>
-            <p>Click to view detailed growth trends</p>
-          </div>
-        </mat-tab>
-        <mat-tab label="Care History">
-          <div class="tab-content empty" [routerLink]="['/plants', p.id, 'history']" style="cursor: pointer">
-            <mat-icon>history</mat-icon>
-            <p>Click to view full activity history</p>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+          </mat-tab>
+          <mat-tab label="Health Insights">
+            <div class="tab-pane center" [routerLink]="['/plants', p.id, 'health']">
+              <mat-icon class="hero-tab-icon">analytics</mat-icon>
+              <p>Explore diagnostic pulse and growth trends</p>
+              <button class="glass-btn">Open Dashboard</button>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </div>
 
-    <aside class="side-actions slide-in stagger-2">
-      <button mat-raised-button color="primary" class="full-width-btn" (click)="onEditDetails()">
-        <mat-icon>edit</mat-icon>
-        Edit Details
-      </button>
-      <button mat-stroked-button class="full-width-btn text-danger" (pointerdown)="onArchiveInteraction('pointerdown')" (mousedown)="onArchiveInteraction('mousedown')" (click)="onArchivePlant()" [disabled]="isArchiving()">
-        <mat-icon>delete_outline</mat-icon>
-        {{ isArchiving() ? 'Archiving...' : 'Archive Plant' }}
-      </button>
+    <aside class="side-col slide-in stagger-2">
+      <div class="action-card glass-card">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+          <button class="premium-btn" (click)="onEditDetails()">
+            <mat-icon>edit_note</mat-icon>
+            Update Profile
+          </button>
+          <button class="danger-glass-btn" (click)="onArchivePlant()" [disabled]="isArchiving()">
+            <mat-icon>archive</mat-icon>
+            {{ isArchiving() ? 'Archive Plant' : 'Archive Plant' }}
+          </button>
+        </div>
+      </div>
     </aside>
   </div>
 </div>
+
+<ng-template #emptySchedules>
+  <div class="empty-placeholder">
+    <mat-icon>event_busy</mat-icon>
+    <p>No active care cycles scheduled.</p>
+  </div>
+</ng-template>
 
 <div *ngIf="isLoading()" class="loading-overlay">
   <mat-spinner diameter="40"></mat-spinner>

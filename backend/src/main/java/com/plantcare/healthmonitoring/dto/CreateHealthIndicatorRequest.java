@@ -21,6 +21,7 @@ public class CreateHealthIndicatorRequest {
     @NotNull(message = "Recorded date is required")
     private LocalDate recordedDate;
 
+    private Integer healthScore;
     private String notes;
 }
 

@@ -38,8 +38,6 @@
 
 - JWT (Access + Refresh Tokens)  
 
-- RBAC (Role-Based Access Control)  
-
 - BCrypt Password Encoding  
 
 

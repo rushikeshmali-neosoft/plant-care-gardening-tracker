@@ -27,6 +27,7 @@ public class CareScheduleService {
     private final PlantRepository plantRepository;
     private final CareScheduleMapper careScheduleMapper;
     private final com.plantcare.healthmonitoring.service.HealthService healthService;
+    private final org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
 
     public List<CareScheduleDto> getSchedulesForPlant(Long plantId, Long userId) {
         // Ensure the plant belongs to the user
@@ -69,7 +70,10 @@ public class CareScheduleService {
 
         // Update the next due date based on frequency with seasonal adjustments
         schedule.setNextDueDate(LocalDate.now().plusDays(calculateAdjustedFrequency(schedule)));
-        careScheduleRepository.save(schedule);
+        CareSchedule saved = careScheduleRepository.save(schedule);
+        
+        // Broadcast update
+        messagingTemplate.convertAndSend("/topic/care/" + userId, careScheduleMapper.toDto(saved));
         
         // Automated health adjustment based on care completion
         int healthDelta = 0;

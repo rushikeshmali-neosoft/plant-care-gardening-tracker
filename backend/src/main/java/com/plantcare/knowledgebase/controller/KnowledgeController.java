@@ -22,14 +22,20 @@ public class KnowledgeController {
 
     private final KnowledgeService knowledgeService;
 
-    @Operation(summary = "Get all care guides", description = "Retrieves all available care guides")
+    @Operation(summary = "Get all care guides", description = "Retrieves all available care guides with optional filtering and search")
     @GetMapping("/guides")
     public ResponseEntity<List<CareGuideDto>> getAllGuides(
             @RequestParam(required = false) String plantType,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String search,
             @AuthenticationPrincipal CustomUserDetails userDetails) {
         
         List<CareGuideDto> guides;
-        if (plantType != null && !plantType.isBlank()) {
+        if (search != null && !search.isBlank()) {
+            guides = knowledgeService.searchGuides(search);
+        } else if (category != null && !category.isBlank()) {
+            guides = knowledgeService.getGuidesByCategory(category);
+        } else if (plantType != null && !plantType.isBlank()) {
             guides = knowledgeService.getGuidesByPlantType(plantType);
         } else {
             guides = knowledgeService.getAllGuides();

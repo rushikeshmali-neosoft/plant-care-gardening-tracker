@@ -19,6 +19,7 @@ public class HealthIndicatorDto {
     private HealthIndicator.HealthStatus healthStatus;
     private LocalDate recordedDate;
     private String notes;
+    private Integer healthScore;
     private LocalDateTime createdAt;
 }
 

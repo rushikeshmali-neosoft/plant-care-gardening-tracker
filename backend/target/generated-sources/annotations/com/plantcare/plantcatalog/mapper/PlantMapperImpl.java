@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-05T13:04:53+0530",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
+    date = "2026-05-07T18:33:18+0530",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
 )
 @Component
 public class PlantMapperImpl implements PlantMapper {
@@ -23,18 +23,18 @@ public class PlantMapperImpl implements PlantMapper {
 
         PlantDto.PlantDtoBuilder plantDto = PlantDto.builder();
 
-        plantDto.id( plant.getId() );
-        plantDto.scientificName( plant.getScientificName() );
         plantDto.commonName( plant.getCommonName() );
-        plantDto.species( plant.getSpecies() );
-        plantDto.variety( plant.getVariety() );
-        plantDto.purchaseDate( plant.getPurchaseDate() );
-        plantDto.source( plant.getSource() );
-        plantDto.locationType( plant.getLocationType() );
-        plantDto.roomGarden( plant.getRoomGarden() );
-        plantDto.status( plant.getStatus() );
         plantDto.createdAt( plant.getCreatedAt() );
+        plantDto.id( plant.getId() );
+        plantDto.locationType( plant.getLocationType() );
+        plantDto.purchaseDate( plant.getPurchaseDate() );
+        plantDto.roomGarden( plant.getRoomGarden() );
+        plantDto.scientificName( plant.getScientificName() );
+        plantDto.source( plant.getSource() );
+        plantDto.species( plant.getSpecies() );
+        plantDto.status( plant.getStatus() );
         plantDto.updatedAt( plant.getUpdatedAt() );
+        plantDto.variety( plant.getVariety() );
 
         return plantDto.build();
     }
@@ -47,15 +47,15 @@ public class PlantMapperImpl implements PlantMapper {
 
         Plant.PlantBuilder plant = Plant.builder();
 
-        plant.scientificName( request.getScientificName() );
         plant.commonName( request.getCommonName() );
-        plant.species( request.getSpecies() );
-        plant.variety( request.getVariety() );
-        plant.purchaseDate( request.getPurchaseDate() );
-        plant.source( request.getSource() );
         plant.locationType( request.getLocationType() );
+        plant.purchaseDate( request.getPurchaseDate() );
         plant.roomGarden( request.getRoomGarden() );
+        plant.scientificName( request.getScientificName() );
+        plant.source( request.getSource() );
+        plant.species( request.getSpecies() );
         plant.status( request.getStatus() );
+        plant.variety( request.getVariety() );
 
         return plant.build();
     }
@@ -66,14 +66,14 @@ public class PlantMapperImpl implements PlantMapper {
             return;
         }
 
-        plant.setScientificName( request.getScientificName() );
         plant.setCommonName( request.getCommonName() );
-        plant.setSpecies( request.getSpecies() );
-        plant.setVariety( request.getVariety() );
-        plant.setPurchaseDate( request.getPurchaseDate() );
-        plant.setSource( request.getSource() );
         plant.setLocationType( request.getLocationType() );
+        plant.setPurchaseDate( request.getPurchaseDate() );
         plant.setRoomGarden( request.getRoomGarden() );
+        plant.setScientificName( request.getScientificName() );
+        plant.setSource( request.getSource() );
+        plant.setSpecies( request.getSpecies() );
         plant.setStatus( request.getStatus() );
+        plant.setVariety( request.getVariety() );
     }
 }

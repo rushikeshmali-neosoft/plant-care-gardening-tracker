@@ -1,6 +1,7 @@
 package com.plantcare.healthmonitoring.controller;
 
 import com.plantcare.healthmonitoring.dto.CreateHealthIndicatorRequest;
+import com.plantcare.healthmonitoring.dto.HealthAnalysisDto;
 import com.plantcare.healthmonitoring.dto.HealthIndicatorDto;
 import com.plantcare.healthmonitoring.service.HealthService;
 import com.plantcare.sharedinfrastructure.security.CustomUserDetails;

@@ -7,6 +7,7 @@ import com.plantcare.healthmonitoring.repository.*;
 import com.plantcare.plantcatalog.entity.Plant;
 import com.plantcare.plantcatalog.exception.PlantNotFoundException;
 import com.plantcare.plantcatalog.repository.PlantRepository;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,16 @@ public class HealthService {
     private final RecoveryRecordRepository recoveryRecordRepository;
     private final PlantRepository plantRepository;
     private final HealthMapper healthMapper;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public List<HealthIndicatorDto> getHealthIndicators(Long plantId, Long userId) {
+        plantRepository.findByIdAndUserId(plantId, userId)
+                .orElseThrow(() -> new PlantNotFoundException("Plant not found or does not belong to user"));
+        
+        return healthIndicatorRepository.findByPlantIdOrderByRecordedDateDesc(plantId).stream()
+                .map(healthMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
     public HealthAnalysisDto getFullHealthAnalysis(Long plantId, Long userId) {
         plantRepository.findByIdAndUserId(plantId, userId)
@@ -67,7 +78,10 @@ public class HealthService {
                 .notes("Automated adjustment based on care activity")
                 .build();
 
-        healthIndicatorRepository.save(indicator);
+        HealthIndicator saved = healthIndicatorRepository.save(indicator);
+        
+        // Broadcast update
+        messagingTemplate.convertAndSend("/topic/health/" + plantId, healthMapper.toDto(saved));
     }
 
     private HealthIndicator.HealthStatus determineStatus(int score) {
@@ -89,7 +103,12 @@ public class HealthService {
         }
 
         HealthIndicator saved = healthIndicatorRepository.save(indicator);
-        return healthMapper.toDto(saved);
+        HealthIndicatorDto dto = healthMapper.toDto(saved);
+        
+        // Broadcast update
+        messagingTemplate.convertAndSend("/topic/health/" + plantId, dto);
+        
+        return dto;
     }
 
     private int calculateScoreFromStatus(HealthIndicator.HealthStatus status) {
