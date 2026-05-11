@@ -25,3 +25,12 @@ export interface CreateCareScheduleRequest {
   nextDueDate: string;
   notes?: string;
 }
+
+export interface Task {
+  scheduleId: number;
+  plantId: number;
+  plantName: string;
+  type: CareType;
+  dueDate: string;
+  isOverdue: boolean;
+}

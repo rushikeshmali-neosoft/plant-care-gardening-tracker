@@ -4,6 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { RealtimeService } from '../../core/services/realtime.service';
+import { CareService } from '../../core/services/care.service';
+import { CareType } from '../../core/models/care.model';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -312,16 +314,40 @@ Chart.register(...registerables);
 export class DashboardComponent implements OnInit, AfterViewInit {
   authService = inject(AuthService);
   realtimeService = inject(RealtimeService);
+  careService = inject(CareService);
 
   @ViewChild('activityChart') activityChartCanvas!: ElementRef;
   @ViewChild('distChart') distChartCanvas!: ElementRef;
 
-  wateringNeeded = signal(3);
+  wateringNeeded = signal(0);
 
   ngOnInit() {
-    // Listen for real-time care updates to update dashboard stats
+    // Fetch initial overdue watering tasks
+    this.fetchWateringNeeded();
+
+    // Initiate real-time subscription for care updates
+    const user = this.authService.currentUser();
+    if (user) {
+      this.realtimeService.subscribeToCare(user.id);
+    }
+
+    // Listen for real-time care updates to refresh dashboard stats
     this.realtimeService.careUpdates$.subscribe(() => {
-      this.wateringNeeded.update(n => Math.max(0, n - 1));
+      // Refetch to get updated count
+      this.fetchWateringNeeded();
+    });
+  }
+
+  private fetchWateringNeeded() {
+    this.careService.getOverdueTasks().subscribe({
+      next: (tasks) => {
+        const wateringTasks = tasks.filter(task => task.type === CareType.WATERING);
+        this.wateringNeeded.set(wateringTasks.length);
+      },
+      error: (err) => {
+        console.error('Failed to fetch overdue tasks:', err);
+        this.wateringNeeded.set(0);
+      }
     });
   }
 
@@ -377,4 +403,3 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     });
   }
 }
-

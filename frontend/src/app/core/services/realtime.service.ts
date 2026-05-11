@@ -1,13 +1,15 @@
-import { Injectable, OnDestroy, signal } from '@angular/core';
+import { Injectable, OnDestroy, signal, inject } from '@angular/core';
 import { Client, IFrame } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { environment } from '../../../environments/environment';
 import { Subject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RealtimeService implements OnDestroy {
+  private authService = inject(AuthService);
   private stompClient: Client | null = null;
   private connectionSubject = new Subject<boolean>();
   
@@ -17,30 +19,36 @@ export class RealtimeService implements OnDestroy {
   notificationUpdates$ = new Subject<any>();
 
   constructor() {
-    try {
-      this.connect();
-    } catch (e) {
-      console.error('Failed to initialize RealtimeService connection', e);
-    }
+    this.connect();
   }
+
   connect() {
-    const wsUrl = `${environment.apiUrl}/ws-plant-care`;
+    // Correct URL: point to backend root, not /api/v1
+    const url = new URL(environment.apiUrl);
+    const wsUrl = `${url.origin}/ws-plant-care`;
+    
+    const token = localStorage.getItem('access_token');
+
     try {
       this.stompClient = new Client({
-        // Some bundlers require .default for SockJS, others provide it directly
         webSocketFactory: () => {
           const SockJSConstructor = (SockJS as any).default || SockJS;
           return new SockJSConstructor(wsUrl);
         },
-        debug: () => {}, 
+        connectHeaders: {
+          Authorization: token ? `Bearer ${token}` : ''
+        },
+        debug: (msg) => {
+          // Keep debug in development
+          if (!environment.production) console.log('STOMP: ' + msg);
+        }, 
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         onConnect: (frame: IFrame) => {
           this.isConnected.set(true);
           this.connectionSubject.next(true);
-          const userName = frame.headers['user-name'] || 'User';
-          console.log('Connected to WebSocket: ' + userName);
+          console.log('Connected to WebSocket');
         },
         onDisconnect: () => {
           this.isConnected.set(false);
@@ -63,30 +71,48 @@ export class RealtimeService implements OnDestroy {
     }
   }
 
-
-
   subscribeToHealth(plantId: number) {
-    if (this.stompClient && this.stompClient.connected) {
+    if (this.stompClient && this.stompClient.active) {
       return this.stompClient.subscribe(`/topic/health/${plantId}`, (message) => {
         this.healthUpdates$.next(JSON.parse(message.body));
       });
+    } else {
+      // If not yet active, wait for connection and then subscribe
+      const sub = this.connectionSubject.subscribe(connected => {
+        if (connected && this.stompClient) {
+          this.stompClient.subscribe(`/topic/health/${plantId}`, (message) => {
+            this.healthUpdates$.next(JSON.parse(message.body));
+          });
+          sub.unsubscribe();
+        }
+      });
+      return null;
     }
-    return null;
   }
 
   subscribeToCare(userId: number) {
-    if (this.stompClient && this.stompClient.connected) {
+    if (this.stompClient && this.stompClient.active) {
       return this.stompClient.subscribe(`/topic/care/${userId}`, (message) => {
         this.careUpdates$.next(JSON.parse(message.body));
       });
+    } else {
+      // If not yet active, wait for connection and then subscribe
+      const sub = this.connectionSubject.subscribe(connected => {
+        if (connected && this.stompClient) {
+          this.stompClient.subscribe(`/topic/care/${userId}`, (message) => {
+            this.careUpdates$.next(JSON.parse(message.body));
+          });
+          sub.unsubscribe();
+        }
+      });
+      return null;
     }
-    return null;
   }
 
   ngOnDestroy() {
     if (this.stompClient) {
       this.stompClient.deactivate();
     }
+    this.connectionSubject.complete();
   }
 }
-

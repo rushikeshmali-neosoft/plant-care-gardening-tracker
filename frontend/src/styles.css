@@ -405,6 +405,11 @@ button.mat-stroked-button:hover {
   box-shadow: 0 12px 30px rgba(45, 122, 58, 0.4);
 }
 
+button.mat-icon-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
 button.mat-flat-button:hover::before,
 button.mat-raised-button:hover::before,
 button.mat-icon-button:hover::before,
@@ -652,4 +657,21 @@ input, select, textarea {
 /* ─── Progress Bar ─── */
 .mat-mdc-progress-bar {
   --mdc-linear-progress-track-color: var(--primary-50);
+}
+
+/* ─── Material Datepicker Panel Fix ─── */
+.mat-datepicker-content {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+  box-shadow: var(--shadow-lg) !important;
+  border-radius: 16px !important;
+}
+
+.mat-calendar {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Ensure overlay container doesn't have clipping issues while maintaining default Material behavior */
+.cdk-overlay-container {
+  z-index: 10000 !important;
 }

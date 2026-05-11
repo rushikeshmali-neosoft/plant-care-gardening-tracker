@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -24,6 +25,7 @@ import { CareType, CreateCareScheduleRequest } from '../../../core/models/care.m
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
+    MatIconModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule

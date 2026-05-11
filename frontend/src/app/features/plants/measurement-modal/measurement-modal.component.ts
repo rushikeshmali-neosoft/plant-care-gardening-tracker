@@ -5,6 +5,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { PhotoUploadComponent } from '../../../shared/components/photo-upload/photo-upload.component';
@@ -19,6 +20,7 @@ import { PhotoUploadComponent } from '../../../shared/components/photo-upload/ph
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
     PhotoUploadComponent
@@ -34,7 +36,7 @@ export class MeasurementModalComponent {
   form = this.fb.group({
     height: [null as number | null, [Validators.required, Validators.min(0)]],
     width: [null as number | null, [Validators.min(0)]],
-    measurementDate: [new Date().toISOString().split('T')[0], Validators.required],
+    measurementDate: [new Date(), Validators.required],
     notes: ['']
   });
 

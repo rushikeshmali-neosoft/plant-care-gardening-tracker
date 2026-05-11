@@ -56,6 +56,8 @@ export class HealthDashboardComponent implements OnInit, AfterViewInit, OnDestro
       this.healthService.getFullAnalysis(id).subscribe();
       this.growthService.getMeasurementsByPlant(id).subscribe();
       
+      // Initiate real-time subscription
+      this.realtimeService.subscribeToHealth(id);
       // Real-time subscription
       const sub = this.realtimeService.healthUpdates$.subscribe(update => {
         if (update.plantId === id) {

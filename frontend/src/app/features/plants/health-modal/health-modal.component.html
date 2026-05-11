@@ -15,7 +15,7 @@
 
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Assessment Date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="recordedDate">
+          <input matInput [matDatepicker]="picker" formControlName="recordedDate" (click)="picker.open()" readonly>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

@@ -1,8 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, finalize } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { CareSchedule, CreateCareScheduleRequest } from '../models/care.model';
+import { CareSchedule, CreateCareScheduleRequest, Task } from '../models/care.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,8 @@ export class CareService {
     return this.http.get<CareSchedule[]>(`${this.baseUrl}/${plantId}/schedules`).pipe(
       tap(schedules => {
         this.schedules.set(schedules);
-        this.isLoading.set(false);
-      })
+      }),
+      finalize(() => this.isLoading.set(false))
     );
   }
 
@@ -32,8 +32,16 @@ export class CareService {
     return this.http.get<CareSchedule[]>(`${environment.apiUrl}/schedules`).pipe(
       tap(schedules => {
         this.schedules.set(schedules);
-        this.isLoading.set(false);
-      })
+      }),
+      finalize(() => this.isLoading.set(false))
+    );
+  }
+
+  /** Get overdue tasks for the authenticated user */
+  getOverdueTasks(): Observable<Task[]> {
+    this.isLoading.set(true);
+    return this.http.get<Task[]>(`${environment.apiUrl}/tasks/overdue`).pipe(
+      finalize(() => this.isLoading.set(false))
     );
   }
 
