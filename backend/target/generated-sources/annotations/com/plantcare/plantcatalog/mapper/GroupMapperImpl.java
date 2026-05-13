@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-07T18:33:19+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-12T13:34:57+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
 )
 @Component
 public class GroupMapperImpl implements GroupMapper {
@@ -24,10 +24,10 @@ public class GroupMapperImpl implements GroupMapper {
 
         PlantGroupDto.PlantGroupDtoBuilder plantGroupDto = PlantGroupDto.builder();
 
-        plantGroupDto.createdAt( group.getCreatedAt() );
-        plantGroupDto.description( group.getDescription() );
         plantGroupDto.id( group.getId() );
         plantGroupDto.name( group.getName() );
+        plantGroupDto.description( group.getDescription() );
+        plantGroupDto.createdAt( group.getCreatedAt() );
 
         plantGroupDto.plantIds( group.getPlants().stream().map(Plant::getId).collect(java.util.stream.Collectors.toList()) );
 
@@ -42,8 +42,8 @@ public class GroupMapperImpl implements GroupMapper {
 
         PlantGroup.PlantGroupBuilder plantGroup = PlantGroup.builder();
 
-        plantGroup.description( request.getDescription() );
         plantGroup.name( request.getName() );
+        plantGroup.description( request.getDescription() );
 
         return plantGroup.build();
     }

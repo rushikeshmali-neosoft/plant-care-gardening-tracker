@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-07T18:33:19+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-12T13:34:57+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
 )
 @Component
 public class CareLogMapperImpl implements CareLogMapper {
@@ -24,11 +24,11 @@ public class CareLogMapperImpl implements CareLogMapper {
         CareLogDto.CareLogDtoBuilder careLogDto = CareLogDto.builder();
 
         careLogDto.plantId( careLogPlantId( careLog ) );
-        careLogDto.careType( careLog.getCareType() );
-        careLogDto.createdAt( careLog.getCreatedAt() );
         careLogDto.id( careLog.getId() );
+        careLogDto.careType( careLog.getCareType() );
         careLogDto.logDate( careLog.getLogDate() );
         careLogDto.notes( careLog.getNotes() );
+        careLogDto.createdAt( careLog.getCreatedAt() );
 
         return careLogDto.build();
     }

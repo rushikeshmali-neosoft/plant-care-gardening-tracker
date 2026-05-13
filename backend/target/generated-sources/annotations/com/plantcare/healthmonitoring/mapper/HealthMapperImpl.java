@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-05-07T18:33:19+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.46.0.v20260407-0427, environment: Java 21.0.10 (Eclipse Adoptium)"
+    date = "2026-05-12T13:34:57+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.16 (Oracle Corporation)"
 )
 @Component
 public class HealthMapperImpl implements HealthMapper {
@@ -32,12 +32,12 @@ public class HealthMapperImpl implements HealthMapper {
         HealthIndicatorDto.HealthIndicatorDtoBuilder healthIndicatorDto = HealthIndicatorDto.builder();
 
         healthIndicatorDto.plantId( indicatorPlantId( indicator ) );
-        healthIndicatorDto.createdAt( indicator.getCreatedAt() );
-        healthIndicatorDto.healthScore( indicator.getHealthScore() );
-        healthIndicatorDto.healthStatus( indicator.getHealthStatus() );
         healthIndicatorDto.id( indicator.getId() );
-        healthIndicatorDto.notes( indicator.getNotes() );
+        healthIndicatorDto.healthStatus( indicator.getHealthStatus() );
         healthIndicatorDto.recordedDate( indicator.getRecordedDate() );
+        healthIndicatorDto.notes( indicator.getNotes() );
+        healthIndicatorDto.healthScore( indicator.getHealthScore() );
+        healthIndicatorDto.createdAt( indicator.getCreatedAt() );
 
         return healthIndicatorDto.build();
     }
@@ -50,10 +50,10 @@ public class HealthMapperImpl implements HealthMapper {
 
         HealthIndicator.HealthIndicatorBuilder healthIndicator = HealthIndicator.builder();
 
-        healthIndicator.healthScore( request.getHealthScore() );
         healthIndicator.healthStatus( request.getHealthStatus() );
-        healthIndicator.notes( request.getNotes() );
+        healthIndicator.healthScore( request.getHealthScore() );
         healthIndicator.recordedDate( request.getRecordedDate() );
+        healthIndicator.notes( request.getNotes() );
 
         return healthIndicator.build();
     }
@@ -68,10 +68,10 @@ public class HealthMapperImpl implements HealthMapper {
 
         symptomLogDto.plantId( logPlantId( log ) );
         symptomLogDto.id( log.getId() );
-        symptomLogDto.notes( log.getNotes() );
-        symptomLogDto.observedDate( log.getObservedDate() );
-        symptomLogDto.severity( log.getSeverity() );
         symptomLogDto.symptom( log.getSymptom() );
+        symptomLogDto.severity( log.getSeverity() );
+        symptomLogDto.observedDate( log.getObservedDate() );
+        symptomLogDto.notes( log.getNotes() );
 
         return symptomLogDto.build();
     }
@@ -85,11 +85,11 @@ public class HealthMapperImpl implements HealthMapper {
         TreatmentHistoryDto.TreatmentHistoryDtoBuilder treatmentHistoryDto = TreatmentHistoryDto.builder();
 
         treatmentHistoryDto.plantId( historyPlantId( history ) );
-        treatmentHistoryDto.appliedDate( history.getAppliedDate() );
         treatmentHistoryDto.id( history.getId() );
-        treatmentHistoryDto.isEffective( history.getIsEffective() );
-        treatmentHistoryDto.notes( history.getNotes() );
         treatmentHistoryDto.treatmentName( history.getTreatmentName() );
+        treatmentHistoryDto.appliedDate( history.getAppliedDate() );
+        treatmentHistoryDto.notes( history.getNotes() );
+        treatmentHistoryDto.isEffective( history.getIsEffective() );
 
         return treatmentHistoryDto.build();
     }
@@ -103,11 +103,11 @@ public class HealthMapperImpl implements HealthMapper {
         EnvironmentalFactorDto.EnvironmentalFactorDtoBuilder environmentalFactorDto = EnvironmentalFactorDto.builder();
 
         environmentalFactorDto.plantId( factorPlantId( factor ) );
-        environmentalFactorDto.humidity( factor.getHumidity() );
         environmentalFactorDto.id( factor.getId() );
+        environmentalFactorDto.temperature( factor.getTemperature() );
+        environmentalFactorDto.humidity( factor.getHumidity() );
         environmentalFactorDto.lightCondition( factor.getLightCondition() );
         environmentalFactorDto.recordedAt( factor.getRecordedAt() );
-        environmentalFactorDto.temperature( factor.getTemperature() );
 
         return environmentalFactorDto.build();
     }
@@ -122,10 +122,10 @@ public class HealthMapperImpl implements HealthMapper {
 
         recoveryRecordDto.plantId( recordPlantId( record ) );
         recoveryRecordDto.id( record.getId() );
-        recoveryRecordDto.notes( record.getNotes() );
-        recoveryRecordDto.progressPercentage( record.getProgressPercentage() );
-        recoveryRecordDto.recoveryDate( record.getRecoveryDate() );
         recoveryRecordDto.startDate( record.getStartDate() );
+        recoveryRecordDto.recoveryDate( record.getRecoveryDate() );
+        recoveryRecordDto.progressPercentage( record.getProgressPercentage() );
+        recoveryRecordDto.notes( record.getNotes() );
         recoveryRecordDto.updatedAt( record.getUpdatedAt() );
 
         return recoveryRecordDto.build();
