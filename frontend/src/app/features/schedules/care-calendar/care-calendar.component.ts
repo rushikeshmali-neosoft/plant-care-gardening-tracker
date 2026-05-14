@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +7,9 @@ import { RouterModule } from '@angular/router';
 import { CareService } from '../../../core/services/care.service';
 import { CareSchedule, CareType } from '../../../core/models/care.model';
 import { ScheduleDialogComponent } from '../schedule-dialog/schedule-dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { switchMap, catchError } from 'rxjs';
+import { of } from 'rxjs';
 
 interface CalendarDay {
   date: Date;
@@ -26,6 +29,7 @@ interface CalendarDay {
 export class CareCalendarComponent implements OnInit {
   careService = inject(CareService);
   private dialog = inject(MatDialog);
+  private destroyRef = inject(DestroyRef);
   
   currentDate = signal(new Date());
   selectedDay = signal<CalendarDay | null>(null);
@@ -42,18 +46,15 @@ export class CareCalendarComponent implements OnInit {
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    // Padding for previous month
     const startPadding = firstDayOfMonth.getDay();
     for (let i = startPadding - 1; i >= 0; i--) {
       days.push(this.createDay(new Date(year, month, -i), false, today));
     }
 
-    // Days of current month
     for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
       days.push(this.createDay(new Date(year, month, i), true, today));
     }
 
-    // Padding for next month
     const endPadding = 42 - days.length;
     for (let i = 1; i <= endPadding; i++) {
       days.push(this.createDay(new Date(year, month + 1, i), false, today));
@@ -63,16 +64,17 @@ export class CareCalendarComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // Load all schedules globally for the calendar view
-    this.careService.getAllSchedules().subscribe({
-      next: () => {
-        // Find today and select it by default
-        const today = new Date();
-        today.setHours(0,0,0,0);
-        const todayDay = this.calendarDays().find(d => d.date.getTime() === today.getTime());
-        if (todayDay) this.selectedDay.set(todayDay);
-      },
-      error: (err: any) => console.error('Failed to load schedules', err)
+    this.careService.getAllSchedules().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      catchError(err => {
+        console.error('Failed to load schedules', err);
+        return of(null);
+      })
+    ).subscribe(() => {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const todayDay = this.calendarDays().find(d => d.date.getTime() === today.getTime());
+      if (todayDay) this.selectedDay.set(todayDay);
     });
   }
 
@@ -108,12 +110,14 @@ export class CareCalendarComponent implements OnInit {
       panelClass: 'schedule-modal-panel'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Refresh schedules
-        this.careService.getAllSchedules().subscribe();
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap((result: boolean | undefined) => result ? this.careService.getAllSchedules() : of(null)),
+      catchError(err => {
+        console.error('Failed to refresh schedules', err);
+        return of(null);
+      })
+    ).subscribe();
   }
 
   selectDay(day: CalendarDay): void {
@@ -121,12 +125,14 @@ export class CareCalendarComponent implements OnInit {
   }
 
   completeTask(task: CareSchedule): void {
-    this.careService.markComplete(task.plantId, task.id).subscribe({
-      next: () => {
-        // Refresh all schedules to update the calendar
-        this.careService.getAllSchedules().subscribe();
-      }
-    });
+    this.careService.markComplete(task.plantId, task.id).pipe(
+      takeUntilDestroyed(this.destroyRef),
+      switchMap(() => this.careService.getAllSchedules()),
+      catchError(err => {
+        console.error('Failed to mark task complete', err);
+        return of(null);
+      })
+    ).subscribe();
   }
 
   getCareIcon(type: CareType): string {

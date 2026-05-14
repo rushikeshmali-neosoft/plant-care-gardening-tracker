@@ -8,15 +8,15 @@ import { signal } from '@angular/core';
 describe('ScheduleListComponent', () => {
   let component: ScheduleListComponent;
   let fixture: ComponentFixture<ScheduleListComponent>;
-  let careServiceMock: any;
+  let careServiceMock: jasmine.SpyObj<CareService>;
 
   beforeEach(async () => {
-    careServiceMock = {
-      getSchedules: jasmine.createSpy('getSchedules').and.returnValue(of([])),
-      deleteSchedule: jasmine.createSpy('deleteSchedule').and.returnValue(of(undefined)),
+    careServiceMock = jasmine.createSpyObj('CareService', ['getAllSchedules', 'deleteSchedule'], {
       schedules: signal([]),
       isLoading: signal(false)
-    };
+    });
+    careServiceMock.getAllSchedules.and.returnValue(of([]));
+    careServiceMock.deleteSchedule.and.returnValue(of(undefined));
 
     await TestBed.configureTestingModule({
       imports: [ScheduleListComponent, NoopAnimationsModule],
@@ -34,7 +34,7 @@ describe('ScheduleListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call getSchedules on init', () => {
-    expect(careServiceMock.getSchedules).toHaveBeenCalled();
+  it('should call getAllSchedules on init', () => {
+    expect(careServiceMock.getAllSchedules).toHaveBeenCalled();
   });
 });

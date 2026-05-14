@@ -1,6 +1,7 @@
 package com.plantcare.usermanagement.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.plantcare.sharedinfrastructure.exception.AuthenticationException;
 import com.plantcare.sharedinfrastructure.security.JwtAuthenticationEntryPoint;
 import com.plantcare.sharedinfrastructure.security.SecurityConfig;
 import com.plantcare.usermanagement.dto.AuthResponse;
@@ -138,15 +139,15 @@ class AuthControllerTest {
                 .andExpect(jsonPath("$.accessToken").value("access-token-123"));
     }
 
-    @Test
+@Test
     void login_WithInvalidCredentials_ShouldThrowException() throws Exception {
         when(authService.login(any(LoginRequest.class), any(), any()))
-                .thenThrow(new RuntimeException("Invalid email or password"));
+                .thenThrow(new AuthenticationException("Invalid email or password"));
 
         mockMvc.perform(post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validLoginRequest)))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

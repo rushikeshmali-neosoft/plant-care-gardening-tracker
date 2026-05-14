@@ -32,6 +32,7 @@ com\plantcare\knowledgebase\repository\CareGuideRepository.class
 com\plantcare\notificationengine\service\NotificationService.class
 com\plantcare\usermanagement\dto\ProfileUpdateRequest$ProfileUpdateRequestBuilder.class
 com\plantcare\activitylogging\entity\CareLog$CareLogBuilder.class
+com\plantcare\sharedinfrastructure\exception\AuthenticationException.class
 com\plantcare\healthmonitoring\dto\SymptomLogDto$SymptomLogDtoBuilder.class
 com\plantcare\healthmonitoring\entity\HealthIndicator$HealthStatus.class
 com\plantcare\activitylogging\dto\CreateCareLogRequest.class
@@ -106,6 +107,7 @@ com\plantcare\carescheduling\exception\CareScheduleNotFoundException.class
 com\plantcare\healthmonitoring\dto\CreateHealthIndicatorRequest$CreateHealthIndicatorRequestBuilder.class
 com\plantcare\sharedinfrastructure\security\JwtAuthenticationFilter.class
 com\plantcare\healthmonitoring\dto\HealthIndicatorDto$HealthIndicatorDtoBuilder.class
+com\plantcare\sharedinfrastructure\config\OpenApiConfig.class
 com\plantcare\usermanagement\entity\User$ExperienceLevel.class
 com\plantcare\healthmonitoring\entity\HealthIndicator.class
 com\plantcare\usermanagement\repository\UserSessionRepository.class

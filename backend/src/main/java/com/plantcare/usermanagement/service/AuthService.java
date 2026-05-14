@@ -1,5 +1,6 @@
 package com.plantcare.usermanagement.service;
 
+import com.plantcare.sharedinfrastructure.exception.AuthenticationException;
 import com.plantcare.usermanagement.dto.AuthResponse;
 import com.plantcare.usermanagement.dto.LoginRequest;
 import com.plantcare.usermanagement.entity.User;
@@ -28,13 +29,11 @@ public class AuthService {
             throw new IllegalArgumentException("Login request cannot be null");
         }
 
-        // Find user by email
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+                .orElseThrow(() -> new AuthenticationException("Invalid email or password"));
 
-        // Validate password
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid email or password");
+            throw new AuthenticationException("Invalid email or password");
         }
 
         // Generate tokens

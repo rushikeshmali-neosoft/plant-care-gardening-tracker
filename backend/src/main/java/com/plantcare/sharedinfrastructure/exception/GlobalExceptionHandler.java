@@ -13,23 +13,34 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    // Most-specific handlers first
-
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex) {
-        logger.warn("User already exists: {}", ex.getMessage());
+        logger.warn("User already exists");
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
-                ex.getMessage(),
+                "User already exists",
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+        String traceId = UUID.randomUUID().toString();
+        logger.warn("Authentication failed [TraceID: {}]", traceId);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Invalid credentials",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,10 +56,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
-        logger.warn("Bad request: {}", ex.getMessage());
+        String traceId = UUID.randomUUID().toString();
+        logger.warn("Bad request [TraceID: {}]", traceId);
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
+                "Invalid request parameters",
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -56,22 +68,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
-        logger.error("Runtime exception: ", ex);
-        ErrorResponse error = new ErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-
-    // Generic catch-all — must be LAST
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-        logger.error("Internal server error: ", ex);
+        String traceId = UUID.randomUUID().toString();
+        logger.error("Runtime exception [TraceID: {}]: ", traceId, ex);
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "An unexpected error occurred. Please try again.",
+                "An internal error occurred. Reference ID: " + traceId,
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
+        String traceId = UUID.randomUUID().toString();
+        logger.error("Internal server error [TraceID: {}]: ", traceId, ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "An unexpected error occurred. Reference ID: " + traceId,
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);

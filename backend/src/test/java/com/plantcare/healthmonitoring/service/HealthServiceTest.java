@@ -5,6 +5,10 @@ import com.plantcare.healthmonitoring.dto.HealthIndicatorDto;
 import com.plantcare.healthmonitoring.entity.HealthIndicator;
 import com.plantcare.healthmonitoring.mapper.HealthMapper;
 import com.plantcare.healthmonitoring.repository.HealthIndicatorRepository;
+import com.plantcare.healthmonitoring.repository.SymptomLogRepository;
+import com.plantcare.healthmonitoring.repository.TreatmentHistoryRepository;
+import com.plantcare.healthmonitoring.repository.EnvironmentalFactorRepository;
+import com.plantcare.healthmonitoring.repository.RecoveryRecordRepository;
 import com.plantcare.plantcatalog.entity.Plant;
 import com.plantcare.plantcatalog.repository.PlantRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +30,29 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class HealthServiceTest {
 
-    @Mock
+@Mock
     private HealthIndicatorRepository healthIndicatorRepository;
+
+    @Mock
+    private SymptomLogRepository symptomLogRepository;
+
+    @Mock
+    private TreatmentHistoryRepository treatmentHistoryRepository;
+
+    @Mock
+    private EnvironmentalFactorRepository environmentalFactorRepository;
+
+    @Mock
+    private RecoveryRecordRepository recoveryRecordRepository;
 
     @Mock
     private PlantRepository plantRepository;
 
     @Mock
     private HealthMapper healthMapper;
+
+    @Mock
+    private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
 
     @InjectMocks
     private HealthService healthService;

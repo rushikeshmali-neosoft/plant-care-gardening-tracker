@@ -33,8 +33,14 @@ public class CareScheduleServiceTest {
     @Mock
     private PlantRepository plantRepository;
 
-    @Mock
+@Mock
     private CareScheduleMapper careScheduleMapper;
+
+    @Mock
+    private com.plantcare.healthmonitoring.service.HealthService healthService;
+
+    @Mock
+    private org.springframework.messaging.simp.SimpMessagingTemplate messagingTemplate;
 
     @InjectMocks
     private CareScheduleService careScheduleService;

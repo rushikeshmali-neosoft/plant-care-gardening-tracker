@@ -28,7 +28,7 @@ describe('PlantService', () => {
 
   it('should fetch all plants', () => {
     const mockPlants: Plant[] = [
-      { id: 1, commonName: 'Monstera', scientificName: 'Monstera Deliciosa', status: PlantStatus.ACTIVE } as Plant
+      { id: 1, commonName: 'Monstera', scientificName: 'Monstera Deliciosa', status: PlantStatus.ACTIVE }
     ];
 
     service.getPlants().subscribe(plants => {
@@ -42,8 +42,8 @@ describe('PlantService', () => {
   });
 
   it('should add a new plant', () => {
-    const newPlant: Plant = { id: 2, commonName: 'Snake Plant', scientificName: 'Sansevieria', status: PlantStatus.ACTIVE } as Plant;
-    const request = { commonName: 'Snake Plant' } as any;
+    const newPlant: Plant = { id: 2, commonName: 'Snake Plant', scientificName: 'Sansevieria', status: PlantStatus.ACTIVE };
+    const request = { commonName: 'Snake Plant' };
 
     service.addPlant(request).subscribe(plant => {
       expect(plant).toEqual(newPlant);
