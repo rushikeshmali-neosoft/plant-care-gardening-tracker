@@ -1,3 +1,6 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "yaml.schemas": {
+        "openapi:v3": "untitled:Untitled-1"
+    }
 }
