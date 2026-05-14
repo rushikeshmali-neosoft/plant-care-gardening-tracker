@@ -60,7 +60,7 @@
   z-index: 1;
   background: #1a1f1b;
   border: 2px solid var(--border-color);
-  transition: transform 0.2s;
+  transition: transform var(--transition-hover);
 }
 
 .timeline-marker mat-icon {

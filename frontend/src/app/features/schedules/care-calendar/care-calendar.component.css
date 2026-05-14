@@ -75,12 +75,13 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transition: background 0.2s;
+  transition: all var(--transition-hover);
   cursor: pointer;
 }
 
 .day-cell:hover {
   background: var(--bg-color);
+  transform: translateY(-4px);
 }
 
 .day-cell.selected {
@@ -217,7 +218,7 @@
   align-items: center;
   gap: 16px;
   padding: 16px;
-  transition: transform 0.2s;
+  transition: all var(--transition-hover);
 }
 
 .task-item:hover {

@@ -39,11 +39,12 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--transition-hover);
+  will-change: transform;
 }
 
 .guide-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
 }
 
 .guide-tag {

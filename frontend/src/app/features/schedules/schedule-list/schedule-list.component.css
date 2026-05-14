@@ -99,13 +99,14 @@
 
 .schedule-row:hover {
   background: var(--primary-50) !important;
+  transform: translateY(-2px);
 }
 
 .plant-link {
   font-weight: 600;
   color: var(--primary-color);
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-hover);
 }
 
 .plant-link:hover {

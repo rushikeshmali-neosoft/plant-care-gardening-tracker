@@ -145,6 +145,12 @@
   padding: 12px;
   background: var(--bg-color);
   border-radius: 12px;
+  transition: all var(--transition-hover);
+}
+
+.data-item:hover {
+  background: var(--primary-50);
+  transform: translateY(-2px);
 }
 
 .severity-dot {

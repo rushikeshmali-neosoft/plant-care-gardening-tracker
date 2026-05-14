@@ -30,7 +30,7 @@
   height: auto !important;
   padding: 16px 20px !important;
   line-height: normal !important;
-  transition: background 0.2s;
+  transition: background var(--transition-hover);
 }
 
 .notif-item.unread {
